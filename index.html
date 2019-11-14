@@ -5,13 +5,92 @@
     <title>Inventory</title>
     <style>
         body {
-            background-color: #611b99;
+            background-color: rebeccapurple;
             color: yellow;
+        }
+
+        .styled {
+            border: 0;
+            line-height: 2.5;
+            padding: 0 20px;
+            font-size: 1rem;
+            text-align: center;
+            color: rebeccapurple;
+            text-shadow: 1px 1px 1px #000;
+            border-radius: 10px;
+            background-color: yellow;
+            background-image: linear-gradient(to top left,
+            rgba(0, 0, 0, .2),
+            rgba(0, 0, 0, .2) 30%,
+            rgba(0, 0, 0, 0));
+            box-shadow: inset 2px 2px 3px rgba(102, 51, 153, .6),
+            inset -2px -2px 3px rgba(102, 51, 153, .6);
+        }
+
+        .styled:hover {
+            background-color: yellow;
+        }
+
+        .styled:active {
+            box-shadow: inset -2px -2px 3px rgba(1, 153, 2, 0.6),
+            inset 2px 2px 3px rgba(30, 153, 5, 0.6);
+        }
+
+        form.Adder {
+            display: table;
+        }
+
+        div.Adder {
+            display: table-row;
+        }
+
+        label, input {
+            display: table-cell;
+            margin-bottom: 10px;
+        }
+
+        label {
+            padding-right: 10px;
         }
     </style>
 
 </head>
 <body>
 <h1>Inventory</h1>
+<form action="your_mom_gay" method="get" class="Adder">
+    <div class="Adder">
+        <label for="Make">Make: </label>
+        <input name="Make" id="Make" required>
+    </div>
+    <div class="Adder">
+        <label for="Model">Model: </label>
+        <input name="Model" id="Model" required>
+    </div>
+    <div class="Adder">
+        <label for="Room">Original Room: </label>
+        <input name="Room" id="Room" required>
+    </div>
+    <div class="Adder">
+        <label for="Teacher">Teacher: </label>
+        <input name="Teacher" id="Teacher" required>
+    </div>
+    <div class="Adder">
+        <label for="Condition">Condition: </label>
+        <input name="Condition" id="Condition" required>
+    </div>
+    <div class="Adder">
+        <label for="Manual">Link to PDF of Manual or state None: </label>
+        <input name="Manual" id="Manual" required>
+    </div>
+    <div class="Adder">
+        Movable?<br>
+        <label>
+            <input type="checkbox" name="movable" value="Bike">
+        </label>
+    </div>
+    <div class="styled">
+        <input type="submit" value="Your Mom Gay">
+    </div>
+</form>
 </body>
 </html>
