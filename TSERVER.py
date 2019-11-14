@@ -1,3 +1,4 @@
+from glob import glob
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import os, sys, time, requests
 from socketserver import ThreadingMixIn
@@ -35,14 +36,8 @@ class Serve(BaseHTTPRequestHandler):
         ]
         final = []
 
-        for f in os.listdir(os.path.abspath(os.path.dirname(__file__))):
-            try:
-                ending = f[f.index("."):]
-                if ending in okPaths:
-                    final.append(f)
-
-            except IndexError:
-                pass
+        for path in okPaths:
+            final.append(glob("[!~$]*." + path))
 
         return final
 
@@ -57,11 +52,13 @@ class Serve(BaseHTTPRequestHandler):
         small = self.path.lower()
         validfiles = self.getValidFiles()
 
-        self.checkAccess(self.address_string())
-
-        if small == "/index.html" or small == "/index" or small == "/":
+        main_page = "/index"
+        if small == main_page + ".html" or small == main_page or small == "/":
             # return the index page
-            pass
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(open("index.html", 'rb').read())
+            return True
 
         elif self.path[1:] in validfiles or self.path[1:] + ".html" in validfiles:
             # gets a file if it is defined as accesible through getValidFiles()
