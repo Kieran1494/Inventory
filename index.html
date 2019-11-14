@@ -5,8 +5,8 @@
     <title>Inventory</title>
     <style>
         body {
-            background-color: rebeccapurple;
-            color: yellow;
+            background-color: green;
+            color: black;
         }
 
         .styled {
@@ -15,25 +15,24 @@
             padding: 0 20px;
             font-size: 1rem;
             text-align: center;
-            color: rebeccapurple;
-            text-shadow: 1px 1px 1px #000;
+            color: white;
             border-radius: 10px;
-            background-color: yellow;
+            background-color: blue;
             background-image: linear-gradient(to top left,
             rgba(0, 0, 0, .2),
             rgba(0, 0, 0, .2) 30%,
             rgba(0, 0, 0, 0));
-            box-shadow: inset 2px 2px 3px rgba(102, 51, 153, .6),
-            inset -2px -2px 3px rgba(102, 51, 153, .6);
+            box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.6),
+            inset -2px -2px 3px rgba(0, 0, 0, 0.6);
         }
 
         .styled:hover {
-            background-color: yellow;
+            background-color: blue;
         }
 
         .styled:active {
-            box-shadow: inset -2px -2px 3px rgba(1, 153, 2, 0.6),
-            inset 2px 2px 3px rgba(30, 153, 5, 0.6);
+            box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.8),
+            inset 2px 2px 3px rgba(255, 255, 255, 0.8);
         }
 
         form.Adder {
@@ -58,57 +57,67 @@
             box-sizing: border-box;
             width: 100%;
             padding: 15px 12px;
+            background-color: green;
         }
 
-        .center {
-            grid-area: main;
-            box-sizing: border-box;
-            padding: 15px 12px;
-            width: 100%;
+        h1 {
+            background-color: blue;
+            color: white;
         }
     </style>
 
 </head>
 <body>
 <div style="text-align: center;">
-<h1>Inventory</h1>
+    <h1>Inventory</h1>
 </div>
 <div class="sidebar">
-<form action="your_mom_gay" method="get" class="Adder">
-    <div class="Adder">
-        <label for="Make">Make: </label>
-        <input name="Make" id="Make" required>
-    </div>
-    <div class="Adder">
-        <label for="Model">Model: </label>
-        <input name="Model" id="Model" required>
-    </div>
-    <div class="Adder">
-        <label for="Room">Original Room: </label>
-        <input name="Room" id="Room" required>
-    </div>
-    <div class="Adder">
-        <label for="Teacher">Teacher: </label>
-        <input name="Teacher" id="Teacher" required>
-    </div>
-    <div class="Adder">
-        <label for="Condition">Condition: </label>
-        <input name="Condition" id="Condition" required>
-    </div>
-    <div class="Adder">
-        <label for="Manual">Link to PDF of Manual or state None: </label>
-        <input name="Manual" id="Manual" required>
-    </div>
-    <div class="Adder">
-        Movable?<br>
-        <label>
-            <input type="checkbox" name="movable">
-        </label>
-    </div>
-    <div class="styled">
-        <input type="submit" value="Your Mom Gay">
-    </div>
-</form>
+    <form action="your_mom_gay" method="get" class="Adder">
+        <div class="Adder">
+            <label for="Make">Make: </label>
+            <input name="Make" id="Make" required>
+        </div>
+        <div class="Adder">
+            <label for="Model">Model: </label>
+            <input name="Model" id="Model" required>
+        </div>
+        <div class="Adder">
+            <label for="ID">ID: </label>
+            <input name="ID" id="ID" required>
+        </div>
+        <div class="Adder">
+            <label for="Room">Original Room: </label>
+            <input name="Room" id="Room" required>
+        </div>
+        <div class="Adder">
+            <label for="Teacher">Teacher: </label>
+            <input name="Teacher" id="Teacher" required>
+        </div>
+        <div class="Adder">
+            <label for="condition">Condition</label>
+            <select name="Condition" id="condition" required>
+                <option value="5">Very Good</option>
+                <option value="4">Good</option>
+                <option value="3">Ok</option>
+                <option value="2">Bad</option>
+                <option value="1">Very Bad</option>
+            </select>
+        </div>
+        <div class="Adder">
+            <label for="Manual">Link to PDF of Manual or state None: </label>
+            <input name="Manual" id="Manual" required>
+        </div>
+        <div class="Adder">
+            <label for="movable">Movable?</label>
+            <input type="checkbox" name="movable" id="movable">
+        </div>
+        <div class="Adder">
+            <label for="description">Description: </label>
+            <input name="description" id="description">
+        </div>
+
+        <input type="submit" value="Thing" class="styled">
+    </form>
 </div>
 </body>
 </html>
