@@ -32,7 +32,8 @@ class Serve(BaseHTTPRequestHandler):
             ".gif",
             ".ico",
             ".js",
-            ".php"
+            ".php",
+            ".pdf"
         ]
         final = []
 
