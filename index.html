@@ -52,11 +52,28 @@
         label {
             padding-right: 10px;
         }
+
+        .sidebar {
+            grid-area: side;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 15px 12px;
+        }
+
+        .center {
+            grid-area: main;
+            box-sizing: border-box;
+            padding: 15px 12px;
+            width: 100%;
+        }
     </style>
 
 </head>
 <body>
+<div style="text-align: center;">
 <h1>Inventory</h1>
+</div>
+<div class="sidebar">
 <form action="your_mom_gay" method="get" class="Adder">
     <div class="Adder">
         <label for="Make">Make: </label>
@@ -92,5 +109,6 @@
         <input type="submit" value="Your Mom Gay">
     </div>
 </form>
+</div>
 </body>
 </html>
