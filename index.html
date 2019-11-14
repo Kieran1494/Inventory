@@ -64,6 +64,11 @@
             background-color: blue;
             color: white;
         }
+
+        .head {
+            font-weight: bold;
+            font-size: large;
+        }
     </style>
 
 </head>
@@ -72,7 +77,9 @@
     <h1>Inventory</h1>
 </div>
 <div class="sidebar">
-    Add Item
+    <div class="head">
+        Add Item
+    </div>
     <form action="your_mom_gay" method="get" class="Adder">
         <div class="Adder">
             <label for="Make">Make: </label>
@@ -114,14 +121,17 @@
         </div>
         <div class="Adder">
             <label for="description">Description: </label>
-            <textarea name="description" rows="5" cols="30" id="description">
+            <textarea name="description" rows="5" cols="20" id="description">
             </textarea>
         </div>
 
         <input type="submit" value="Thing" class="styled">
     </form>
-    Add Existing Item
-    <form action="addesc" method="get" class="Adder">
+    <div class="head">
+        Add Existing Item
+    </div>
+    >
+    <form action="addesc" method="get" class="Adderesc">
         <div class="Adder">
             <label for="item">Item</label>
             <select name="item" id="item" size="10" required>
