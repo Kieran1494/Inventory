@@ -72,6 +72,7 @@
     <h1>Inventory</h1>
 </div>
 <div class="sidebar">
+    Add Item
     <form action="your_mom_gay" method="get" class="Adder">
         <div class="Adder">
             <label for="Make">Make: </label>
@@ -113,7 +114,45 @@
         </div>
         <div class="Adder">
             <label for="description">Description: </label>
-            <input name="description" id="description">
+            <textarea name="description" rows="5" cols="30" id="description">
+            </textarea>
+        </div>
+
+        <input type="submit" value="Thing" class="styled">
+    </form>
+    Add Existing Item
+    <form action="addesc" method="get" class="Adder">
+        <div class="Adder">
+            <label for="item">Item</label>
+            <select name="item" id="item" size="10" required>
+
+            </select>
+        </div>
+        <div class="Adder">
+            <label for="Model">Model: </label>
+            <input name="Model" id="Model" required>
+        </div>
+        <div class="Adder">
+            <label for="ID">ID: </label>
+            <input name="ID" id="ID" required>
+        </div>
+        <div class="Adder">
+            <label for="Room">Original Room: </label>
+            <input name="Room" id="Room" required>
+        </div>
+        <div class="Adder">
+            <label for="Teacher">Teacher: </label>
+            <input name="Teacher" id="Teacher" required>
+        </div>
+        <div class="Adder">
+            <label for="condition">Condition</label>
+            <select name="Condition" id="condition" required>
+                <option value="5">Very Good</option>
+                <option value="4">Good</option>
+                <option value="3">Ok</option>
+                <option value="2">Bad</option>
+                <option value="1">Very Bad</option>
+            </select>
         </div>
 
         <input type="submit" value="Thing" class="styled">
