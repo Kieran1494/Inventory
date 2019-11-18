@@ -171,16 +171,74 @@ class Serve(BaseHTTPRequestHandler):
             string = string.replace(key, replacelist.get(key))
         return string
 
+    def _convertDictToTuple(self, **kwargs):
+        '''
+        Uses key word arguments to take an unordered dict and return an ordered tuple
+
+        args: unpacked dict
+        returns: tuple
+        '''
+        return tuple(kwargs.get(x, None) for x in PARAM_ARGS)
+
+
+    def sortData(self):
+        '''
+        Takes raw URL input and converts it to a tuple
+
+        args: nix
+        returns: tuple
+        '''
+        return self._convertDictToTuple(**args)
+
     def do_POST(self):
         """
         formal POST method
         required by http module to handle POST requests
         """
-        pass
+        if self.path == "submit_data":
+            sortedData = self.sortData()
+            updateDB(sortedData)
+
 
 
 class ThreadHandler(ThreadingMixIn, HTTPServer):
     pass
+
+def updateDB(data):
+    '''
+    Updates the DB with new data
+
+    args: data (tuple)
+    returns: nix
+    '''
+    db = sqlite3.connect("inventory.db")
+    c = db.cursor()
+
+    c.execute("INSERT INTO data VALUES (" + "?, " * (len(PARAM_ARGS) - 1) + "?)", data)
+
+    #do stuff with data here for archival purposes
+
+    db.commit()
+    c.close()
+
+def checkDB():
+    '''
+    Checks DB for presence of tables, appending them if nonexistant
+
+    args: nix
+    returns: nix
+    '''
+    db = sqlite3.connect("inventory.db")
+    c = db.cursor()
+
+    hasTables = len([x for x in c.execute("SELECT * FROM sqlite_master WHERE type='table'")]) > 1
+
+    if not hasTables:
+        c.execute("CREATE TABLE data (" + ", ".join(PARAM_ARGS) + ")")
+        c.execute("CREATE TABLE history (" + ", ".join(HISTORY_ARGS) + ")")
+
+    db.commit()
+    c.close()
 
 
 if __name__ == "__main__":
@@ -189,6 +247,11 @@ if __name__ == "__main__":
     IP = "0.0.0.0"
 
     Port = 80
+
+    PARAM_ARGS = ("name", "room")
+    HISTORY_ARGS = ('name', 'teacher')
+
+    checkDB()
 
     httpd = ThreadHandler((IP, Port), Serve)
     httpd.serve_forever()
