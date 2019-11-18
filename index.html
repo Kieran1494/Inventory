@@ -37,10 +37,12 @@
 
         form.Adder {
             display: table;
+            vertical-align: middle;
         }
 
         div.Adder {
             display: table-row;
+            vertical-align: middle;
         }
 
         label, input {
@@ -82,6 +84,10 @@
     </div>
     <form action="your_mom_gay" method="get" class="Adder">
         <div class="Adder">
+            <label for="Name">Name: </label>
+            <input name="Name" id="Name" required>
+        </div>
+        <div class="Adder">
             <label for="Make">Make: </label>
             <input name="Make" id="Make" required>
         </div>
@@ -121,8 +127,7 @@
         </div>
         <div class="Adder">
             <label for="description">Description: </label>
-            <textarea name="description" rows="5" cols="20" id="description">
-            </textarea>
+            <textarea name="description" rows="5" id="description"></textarea>
         </div>
 
         <input type="submit" value="Submit" class="styled">
