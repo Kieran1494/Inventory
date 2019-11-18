@@ -178,17 +178,18 @@ class Serve(BaseHTTPRequestHandler):
         args: unpacked dict
         returns: tuple
         '''
-        return tuple(kwargs.get(x, None) for x in PARAM_ARGS)
+        return tuple(kwargs.get(x, None) for x in kwargs.get("dict"))
 
 
-    def sortData(self):
+    def sortData(self, idict):
         '''
         Takes raw URL input and converts it to a tuple
 
-        args: nix
+        args: idict (dict) (dictionary to look at for arguments)
         returns: tuple
         '''
-        return self._convertDictToTuple(**args)
+        args = "BULL SHIT"
+        return self._convertDictToTuple(dict = idict, **args)
 
     def do_POST(self):
         """
@@ -196,13 +197,50 @@ class Serve(BaseHTTPRequestHandler):
         required by http module to handle POST requests
         """
         if self.path == "submit_data":
-            sortedData = self.sortData()
+            sortedData = self.sortData(PARAM_ARGS)
             updateDB(sortedData)
+
+        elif self.path == "req_trans":
+            hData = self.sortData(HISTORY_ARGS)
+            requestDB(hData)
 
 
 
 class ThreadHandler(ThreadingMixIn, HTTPServer):
     pass
+
+def requestDB(hData):
+    '''
+    Handles request to make transaction
+
+    args: hData (tuple) | tuple for data to go to history table
+    returns: none
+    '''
+    db = sqlite3.connect("inventory.db")
+    c = db.cursor()
+
+    try:
+        f = open("log.txt", 'r')
+    except:
+        f = open("log.txt", 'w')
+    finally:
+        f.close()
+        f = open("log.txt", 'a')
+
+    rto = [x for x in c.execute("SELECT rto FROM history WHERE id='" + str(hData[0]) + "'")][0][0]
+    rfrom = [x for x in c.execute("SELECT rfrom FROM history WHERE id='" + str(hData[0]) + "'")][0][0]
+    tin = [x for x in c.execute("SELECT tin FROM history WHERE id='" + str(hData[0]) + "'")][0][0]
+    tout = [x for x in c.execute("SELECT tout FROM history WHERE id='" + str(hData[0]) + "'")][0][0]
+
+    # print(rto, rfrom, tin, tout)
+    f.write(str(rto) + " " + str(rfrom) + " " + str(tin) + " " + str(tout) + "\n")
+
+    insertData = "".join([HISTORY_ARGS[hData[1:].index(x)] + "='" + str(x) + "', " if hData.index(x) != len(hData) - 1 else HISTORY_ARGS[hData[1:].index(x)] + "='" + str(x) + "'" for x in hData[1:]])
+
+    c.execute("UPDATE history SET " + insertData + " WHERE id='" + hData[0] + "'")
+
+    db.commit()
+    c.close()
 
 def updateDB(data):
     '''
@@ -215,6 +253,7 @@ def updateDB(data):
     c = db.cursor()
 
     c.execute("INSERT INTO data VALUES (" + "?, " * (len(PARAM_ARGS) - 1) + "?)", data)
+    c.execute("INSERT INTO history VALUES (" + "?, " * (len(HISTORY_ARGS) - 1) + "?)", (data[0], None, data[4], None, None))
 
     #do stuff with data here for archival purposes
 
@@ -248,8 +287,11 @@ if __name__ == "__main__":
 
     Port = 80
 
-    PARAM_ARGS = ("name", "room")
-    HISTORY_ARGS = ('name', 'teacher')
+    PARAM_ARGS = ("id", "name", "make", "model", "room", "teacher", "condition", "desc", "moveable", "manual")
+    HISTORY_ARGS = ('id', 'rto', 'rfrom', 'tin', 'tout')
+
+    # updateDB(PARAM_ARGS)
+    # requestDB(HISTORY_ARGS)
 
     checkDB()
 
