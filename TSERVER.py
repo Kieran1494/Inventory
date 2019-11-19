@@ -7,51 +7,47 @@ from multiprocessing import Process
 import sqlite3
 
 
+def get_valid_files():
+    """
+    gives all valid file paths in the folder(s)
+    :return: all valid path urls (list)
+    """
+    ok_paths = [
+        ".html",
+        ".png",
+        ".css",
+        ".jpg",
+        ".gif",
+        ".ico",
+        ".js",
+        ".php",
+        ".pdf"
+    ]
+    final = []
+
+    for path in ok_paths:
+        final.append(glob("[!~$]*." + path))
+
+    return final
+
+
 class Serve(BaseHTTPRequestHandler):
     def validate(self, ip):
         """
         checks if ip can access site
-
-        args: ip
-        returns: boolean
+        :param ip: ip address
+        :return: boolean valid/not valid
         """
-
         pass
 
-    def getValidFiles(self):
+    def get_page(self):
         """
-        gives all valid file paths in the folder(s)
-
-        returns: all valid path urls (list)
-        """
-        okPaths = [
-            ".html",
-            ".png",
-            ".css",
-            ".jpg",
-            ".gif",
-            ".ico",
-            ".js",
-            ".php",
-            ".pdf"
-        ]
-        final = []
-
-        for path in okPaths:
-            final.append(glob("[!~$]*." + path))
-
-        return final
-
-    def getpage(self):
-        """
-        does the get method
-
-        args: nix
-        returns: nix
+        gets the page
+        :return: the page
         """
 
         small = self.path.lower()
-        validfiles = self.getValidFiles()
+        validfiles = get_valid_files()
 
         main_page = "/index"
         if small == main_page + ".html" or small == main_page or small == "/":
@@ -62,7 +58,7 @@ class Serve(BaseHTTPRequestHandler):
             return True
 
         elif self.path[1:] in validfiles or self.path[1:] + ".html" in validfiles:
-            # gets a file if it is defined as accesible through getValidFiles()
+            # gets a file if it is defined as accessible through getValidFiles()
             try:
                 opener = validfiles[validfiles.index(self.path[1:])]
             except FileNotFoundError:
@@ -88,59 +84,51 @@ class Serve(BaseHTTPRequestHandler):
             self.wfile.write(f.encode())
             return f
 
-    def formatError(self, ip):
+    def format_error(self, ip):
         """
-        formats an error message
-
-        args: ip
-        returns: error message as str
+        formats error message
+        :param ip: ip address
+        :return: string error message
         """
-
         pass
 
-    def errorPage(self):
+    def error_page(self):
         """
-        writes an error page
-
-        returns: nothing
+        writes error page
+        :return: nothing
         """
-
         pass
 
-    def do_GET(self):
+    def do_get(self):
         """
         formal GET method for http module
 
         checks if ip is valid then writes page
         else write error page
+        :return: nothing
         """
-
         ip = self.address_string()
         valid = self.validate(ip)
-        errorString = self.formatError(ip)
+        errorString = self.format_error(ip)
 
         if valid:
-            self.getpage()
+            self.get_page()
 
         else:
             print(errorString)
-            self.errorPage()
+            self.error_page()
 
-    def replace(self, string, replacelist=None):
-
+    def replace(self, string, replace_list=None):
         """
         -= Does NOT overwrite the default replace() method (this is called with self.replace(args*)) =-
 
         replaces all parts of the string that are in replacelist
-
-        args:
-            string - string to be replaced
-            replacelist (key arg) - dict of {word to replace: replacement word}
-
-        returns: replaced string
+        :param string: string to be replaced
+        :param replace_list: dict of {word to replace: replacement word}
+        :return: replaced string
         """
-        if not replacelist:
-            replacelist = {
+        if not replace_list:
+            replace_list = {
                 "%0D%0A": "\n",
                 "+": " ",
                 "%22": "\"",
@@ -167,53 +155,51 @@ class Serve(BaseHTTPRequestHandler):
                 "%27": "'",
                 "%20": " "
             }
-        for key in replacelist:
-            string = string.replace(key, replacelist.get(key))
+        for key in replace_list:
+            string = string.replace(key, replace_list.get(key))
         return string
 
-    def _convertDictToTuple(self, **kwargs):
+    def _convert_dict_to_tuple(self, **kwargs):
         """
         Uses key word arguments to take an unordered dict and return an ordered tuple
-
-        args: unpacked dict
-        returns: tuple
+        :param kwargs: unpacked dict
+        :return: tuple
         """
         return tuple(kwargs.get(x, None) for x in kwargs.get("dict"))
 
-    def sortData(self, idict):
+    def sort_data(self, idict):
         """
         Takes raw URL input and converts it to a tuple
-
-        args: idict (dict) (dictionary to look at for arguments)
-        returns: tuple
+        :param idict: (dict) (dictionary to look at for arguments)
+        :return: tuple
         """
         args = "BULL SHIT"
-        return self._convertDictToTuple(dict=idict, **args)
+        return self._convert_dict_to_tuple(dict=idict, **args)
 
     def do_POST(self):
         """
         formal POST method
         required by http module to handle POST requests
+        :return: nothing
         """
         if self.path == "submit_data":
-            sortedData = self.sortData(PARAM_ARGS)
+            sortedData = self.sort_data(PARAM_ARGS)
             updateDB(sortedData)
 
         elif self.path == "req_trans":
-            hData = self.sortData(HISTORY_ARGS)
-            requestDB(hData)
+            hData = self.sort_data(HISTORY_ARGS)
+            request_DB(hData)
 
 
 class ThreadHandler(ThreadingMixIn, HTTPServer):
     pass
 
 
-def requestDB(hData):
+def request_DB(hData):
     """
     Handles request to make transaction
-
-    args: hData (tuple) | tuple for data to go to history table
-    returns: none
+    :param hData: tuple for data to go to history table
+    :return: nothing
     """
     db = sqlite3.connect("inventory.db")
     c = db.cursor()
@@ -266,8 +252,7 @@ def updateDB(data):
 def checkDB():
     """
     Checks DB for presence of tables, appending them if nonexistent
-    args: nix
-    returns: nix
+    :return: nothing
     """
     db = sqlite3.connect("inventory.db")
     c = db.cursor()
