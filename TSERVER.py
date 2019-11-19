@@ -172,24 +172,23 @@ class Serve(BaseHTTPRequestHandler):
         return string
 
     def _convertDictToTuple(self, **kwargs):
-        '''
+        """
         Uses key word arguments to take an unordered dict and return an ordered tuple
 
         args: unpacked dict
         returns: tuple
-        '''
+        """
         return tuple(kwargs.get(x, None) for x in kwargs.get("dict"))
 
-
     def sortData(self, idict):
-        '''
+        """
         Takes raw URL input and converts it to a tuple
 
         args: idict (dict) (dictionary to look at for arguments)
         returns: tuple
-        '''
+        """
         args = "BULL SHIT"
-        return self._convertDictToTuple(dict = idict, **args)
+        return self._convertDictToTuple(dict=idict, **args)
 
     def do_POST(self):
         """
@@ -205,17 +204,17 @@ class Serve(BaseHTTPRequestHandler):
             requestDB(hData)
 
 
-
 class ThreadHandler(ThreadingMixIn, HTTPServer):
     pass
 
+
 def requestDB(hData):
-    '''
+    """
     Handles request to make transaction
 
     args: hData (tuple) | tuple for data to go to history table
     returns: none
-    '''
+    """
     db = sqlite3.connect("inventory.db")
     c = db.cursor()
 
@@ -235,38 +234,41 @@ def requestDB(hData):
     # print(rto, rfrom, tin, tout)
     f.write(str(rto) + " " + str(rfrom) + " " + str(tin) + " " + str(tout) + "\n")
 
-    insertData = "".join([HISTORY_ARGS[hData[1:].index(x)] + "='" + str(x) + "', " if hData.index(x) != len(hData) - 1 else HISTORY_ARGS[hData[1:].index(x)] + "='" + str(x) + "'" for x in hData[1:]])
+    insertData = "".join([HISTORY_ARGS[hData[1:].index(x)] + "='" + str(x) + "', " if hData.index(x) != len(
+        hData) - 1 else HISTORY_ARGS[hData[1:].index(x)] + "='" + str(x) + "'" for x in hData[1:]])
 
     c.execute("UPDATE history SET " + insertData + " WHERE id='" + hData[0] + "'")
 
     db.commit()
     c.close()
 
+
 def updateDB(data):
-    '''
+    """
     Updates the DB with new data
 
     args: data (tuple)
     returns: nix
-    '''
+    """
     db = sqlite3.connect("inventory.db")
     c = db.cursor()
 
     c.execute("INSERT INTO data VALUES (" + "?, " * (len(PARAM_ARGS) - 1) + "?)", data)
-    c.execute("INSERT INTO history VALUES (" + "?, " * (len(HISTORY_ARGS) - 1) + "?)", (data[0], None, data[4], None, None))
+    c.execute("INSERT INTO history VALUES (" + "?, " * (len(HISTORY_ARGS) - 1) + "?)",
+              (data[0], None, data[4], None, None))
 
-    #do stuff with data here for archival purposes
+    # do stuff with data here for archival purposes
 
     db.commit()
     c.close()
 
-def checkDB():
-    '''
-    Checks DB for presence of tables, appending them if nonexistant
 
+def checkDB():
+    """
+    Checks DB for presence of tables, appending them if nonexistent
     args: nix
     returns: nix
-    '''
+    """
     db = sqlite3.connect("inventory.db")
     c = db.cursor()
 
