@@ -16,7 +16,7 @@ class Serve(BaseHTTPRequestHandler):
         returns: boolean
         """
 
-        pass
+        return True
 
     def getValidFiles(self):
         """
@@ -38,7 +38,7 @@ class Serve(BaseHTTPRequestHandler):
         final = []
 
         for path in okPaths:
-            final.append(glob("[!~$]*." + path))
+            final += glob("[!~$]*" + path)
 
         return final
 
@@ -52,10 +52,12 @@ class Serve(BaseHTTPRequestHandler):
 
         small = self.path.lower()
         validfiles = self.getValidFiles()
+        print(validfiles)
 
         main_page = "/index"
         if small == main_page + ".html" or small == main_page or small == "/":
             # return the index page
+            # print("HOME")
             self.send_response(200)
             self.end_headers()
             self.wfile.write(open("index.html", 'rb').read())
@@ -63,6 +65,7 @@ class Serve(BaseHTTPRequestHandler):
 
         elif self.path[1:] in validfiles or self.path[1:] + ".html" in validfiles:
             # gets a file if it is defined as accesible through getValidFiles()
+            
             try:
                 opener = validfiles[validfiles.index(self.path[1:])]
             except FileNotFoundError:
@@ -81,8 +84,8 @@ class Serve(BaseHTTPRequestHandler):
             # return 404 - file not found
             print("FUCK")
             did404 = True
-            f = "404 file not found<br>fuck off<br><img " \
-                "src='https://i.pinimg.com/originals/2b/d2/4d/2bd24db551316d5694321317c26fa69a.jpg'/> "
+            f = "<html>404 file not found<br>fuck off<br><img " \
+                "src='https://i.pinimg.com/originals/2b/d2/4d/2bd24db551316d5694321317c26fa69a.jpg'/></html>"
             self.send_response(404)
             self.end_headers()
             self.wfile.write(f.encode())
@@ -96,7 +99,7 @@ class Serve(BaseHTTPRequestHandler):
         returns: error message as str
         """
 
-        pass
+        return b"YIEKS"
 
     def errorPage(self):
         """
@@ -114,7 +117,7 @@ class Serve(BaseHTTPRequestHandler):
         checks if ip is valid then writes page
         else write error page
         """
-
+        os.chdir(os.path.abspath(os.path.dirname(__file__)))
         ip = self.address_string()
         valid = self.validate(ip)
         errorString = self.formatError(ip)
@@ -188,7 +191,13 @@ class Serve(BaseHTTPRequestHandler):
         args: idict (dict) (dictionary to look at for arguments)
         returns: tuple
         '''
-        args = "BULL SHIT"
+        l = int(self.headers["Content-Length"])
+        content = self.rfile.read(l).decode()
+
+        args = {k.lower():v for (k, v) in [x.split("=") for x in content.split("&")]}
+        print(args)
+        
+        # args = {"BULL":"SHIT"}
         return self._convertDictToTuple(dict = idict, **args)
 
     def do_POST(self):
@@ -196,11 +205,14 @@ class Serve(BaseHTTPRequestHandler):
         formal POST method
         required by http module to handle POST requests
         """
-        if self.path == "submit_data":
+        print("RAN POST")
+        if self.path == "/submit_data":
+            
             sortedData = self.sortData(PARAM_ARGS)
+            print(sortedData)
             updateDB(sortedData)
 
-        elif self.path == "req_trans":
+        elif self.path == "/req_trans":
             hData = self.sortData(HISTORY_ARGS)
             requestDB(hData)
 
@@ -287,7 +299,7 @@ if __name__ == "__main__":
 
     Port = 80
 
-    PARAM_ARGS = ("id", "name", "make", "model", "room", "teacher", "condition", "desc", "moveable", "manual")
+    PARAM_ARGS = ("id", "name", "make", "model", "room", "teacher", "condition", "description", "movable", "manual")
     HISTORY_ARGS = ('id', 'rto', 'rfrom', 'tin', 'tout')
 
     # updateDB(PARAM_ARGS)
