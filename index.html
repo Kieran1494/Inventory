@@ -129,6 +129,14 @@
             text-align: left;
             font-size: 16px;
         }
+        tr:not(:first-child):hover {
+            background-color: black;
+        }
+        td a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -191,7 +199,6 @@
 
 <div class="main">
     <h2>DataBase</h2>
-    <p>
     <div class="search">
         <form action="search" method="search" class="search">
             <div class="search">
@@ -202,11 +209,26 @@
             </div>
         </form>
     </div>
-    </p>
+    <p></p>
     <table class="table">
-        [INDEX]
+    <!--[INDEX]-->
+<!--    Example Table-->
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Age</th>
+        </tr>
+        <tr>
+            <td><a href="jill">Jill</a></td>
+            <td><a href="ja">Ja</a></td>
+            <td><a href="asdf">asdf</a></td>
+        </tr>
+        <tr>
+            <td>Eve</td>
+            <td>Jackson</td>
+            <td>94</td>
+        </tr>
     </table>
-    <p>
     <form action="req_trans" class="Adder" method="post">
         <div class="Adder">
             <label for="item">Item</label>
@@ -239,7 +261,6 @@
 
         <input class="styled" type="submit" value="Submit">
     </form>
-    </p>
 </div>
 </body>
 </html>
