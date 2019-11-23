@@ -6,6 +6,10 @@ import threading
 from multiprocessing import Process
 import sqlite3
 
+#associate id with parameters, i.e {id:(parameters)}, so that when one searches for a parameter, they get the right id
+#no syntax, no multi-form
+#e.g. search::vernier, returns vernier instruments, but a similar search of search::calipers will return
+#a series of calipers
 
 class Serve(BaseHTTPRequestHandler):
     def validate(self, ip):
@@ -195,6 +199,7 @@ class Serve(BaseHTTPRequestHandler):
         content = self.rfile.read(l).decode()
 
         args = {k.lower():v for (k, v) in [x.split("=") for x in content.split("&")]}
+        args.update({"id":len(c.execute("SELECT * FROM data"))})
         print(args)
         
         # args = {"BULL":"SHIT"}
@@ -216,10 +221,61 @@ class Serve(BaseHTTPRequestHandler):
             hData = self.sortData(HISTORY_ARGS)
             requestDB(hData)
 
+        elif self.path == "/search_db":
+            content = self.rfile.read(int(self.headers["Content-Length"])).decode()
+            insert = searchDB(content)
+            with open("index.html", 'rb') as f:
+                toWrite = f.read().replace(b"[INDEX]", insert.encode())
+                self.wfile.write(toWrite)
+                print(toWrite)
+                f.close()
+
+            self.send_response(200)
+            self.end_headers()
+
 
 
 class ThreadHandler(ThreadingMixIn, HTTPServer):
     pass
+
+def searchDB(terms):
+    '''
+    Searches the database for matching keywords from any column
+
+    args: terms (search terms, string)
+            multiple terms are separated by ","
+            
+    returns: the table to replace the keyword in index.html (e.g. replace [INDEX] with the table of data
+                matching the selected search terms)
+    '''
+    print(terms)
+    
+    terms = terms[terms.index("=") + 1:].split(",")
+
+    db = sqlite3.connect("inventory.db")
+    c = db.cursor()
+
+    allD = {tuple(v for v in line[1:]):line[0] for line in c.execute("SELECT * FROM data")}
+
+    print(allD)
+    print(terms)
+
+    matched = []
+
+    for d in allD:
+        for t in terms:
+            if t in d:
+                matched.append((allD.get(d), *d))
+    
+    print(matched)
+    
+    toInsert = "<tr>" + "</th>".join(["<th>" + x for x in PARAM_ARGS] + [""]) + "</tr>"
+    toInsert += "</tr>".join(["<tr>" + "</td>".join(["<td>" + v for v in x] + [""]) for x in matched] + [""])   
+
+    db.commit()
+    c.close()
+
+    return toInsert
 
 def requestDB(hData):
     '''
