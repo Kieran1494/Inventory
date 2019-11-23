@@ -130,14 +130,55 @@
             font-size: 16px;
         }
         tr:not(:first-child):hover {
-            background-color: black;
+            background-color: #303030;
         }
+
         td a {
             display: block;
             color: inherit;
             text-decoration: none;
         }
     </style>
+    <SCRIPT>
+        var xhr = new XMLHttpRequest();
+        var yourUrl = "select row";
+        function highlight_row() {
+            var table = document.getElementById('database');
+            var cells = table.getElementsByTagName('td');
+
+            for (var i = 0; i < cells.length; i++) {
+                // Take each cell
+                var cell = cells[i];
+                // do something on onclick event for cell
+                cell.onclick = function () {
+                    // Get the row id where the cell exists
+                    var rowId = this.parentNode.rowIndex;
+
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].style.backgroundColor = "";
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    rowSelected.style.backgroundColor = "black";
+                    rowSelected.className += " selected";
+
+
+                    xhr.open("POST", yourUrl, true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify({
+                        id: rowSelected.cells[3].innerHTML
+                    }));
+                    msg = 'ID:';
+                    msg += rowSelected.cells[3].innerHTML;
+                    alert(msg);
+                }
+            }
+
+        } //end of function
+
+        window.onload = highlight_row;
+    </SCRIPT>
 </head>
 <body>
 
@@ -202,7 +243,7 @@
     <div class="search">
         <form action="search" method="search" class="search">
             <div class="search">
-                <input name="Search" id="Search"  required>
+                <input name="Search" id="Search" required>
             </div>
             <div class="submit">
                 <input class="styled" type="submit" value="Search">
@@ -210,18 +251,18 @@
         </form>
     </div>
     <p></p>
-    <table class="table">
-    <!--[INDEX]-->
-<!--    Example Table-->
+    <table class="table" id="database">
+        <!--[INDEX]-->
+        <!--    Example Table-->
         <tr>
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Age</th>
         </tr>
         <tr>
-            <td><a href="jill">Jill</a></td>
-            <td><a href="ja">Ja</a></td>
-            <td><a href="asdf">asdf</a></td>
+            <td>Jill</td>
+            <td>Ja</td>
+            <td>asdf</td>
         </tr>
         <tr>
             <td>Eve</td>
