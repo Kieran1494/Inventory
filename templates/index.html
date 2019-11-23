@@ -6,7 +6,7 @@
         body {
             background-color: #611b99;
             color: #ffe63b;
-            cursor: url("AOS_Logo1.png"), pointer;
+            cursor: url("../static/AOS_Logo1.png"), pointer;
             line-height: 1.6;
             letter-spacing: -.00278rem;
             font-size: 18px;
@@ -129,6 +129,7 @@
             text-align: left;
             font-size: 16px;
         }
+
         tr:not(:first-child):hover {
             background-color: #303030;
         }
@@ -139,46 +140,6 @@
             text-decoration: none;
         }
     </style>
-    <SCRIPT>
-        var xhr = new XMLHttpRequest();
-        var yourUrl = "select row";
-        function highlight_row() {
-            var table = document.getElementById('database');
-            var cells = table.getElementsByTagName('td');
-
-            for (var i = 0; i < cells.length; i++) {
-                // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.onclick = function () {
-                    // Get the row id where the cell exists
-                    var rowId = this.parentNode.rowIndex;
-
-                    var rowsNotSelected = table.getElementsByTagName('tr');
-                    for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].style.backgroundColor = "";
-                        rowsNotSelected[row].classList.remove('selected');
-                    }
-                    var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.style.backgroundColor = "black";
-                    rowSelected.className += " selected";
-
-
-                    xhr.open("POST", yourUrl, true);
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.send(JSON.stringify({
-                        id: rowSelected.cells[3].innerHTML
-                    }));
-                    msg = 'ID:';
-                    msg += rowSelected.cells[3].innerHTML;
-                    alert(msg);
-                }
-            }
-
-        } //end of function
-
-        window.onload = highlight_row;
-    </SCRIPT>
 </head>
 <body>
 
@@ -186,18 +147,18 @@
     <div class="head">
         Add Item
     </div>
-    <form action="submit_data" class="Adder" method="post">
+    <form action="add_item" class="Adder" method="post">
         <div class="Adder">
             <label for="Name">Name: </label>
-            <input id="Name" name="Name" required>
+            <input id="Name" name="name" required>
         </div>
         <div class="Adder">
             <label for="Make">Make: </label>
-            <input id="Make" name="Make" required>
+            <input id="Make" name="make" required>
         </div>
         <div class="Adder">
             <label for="Model">Model: </label>
-            <input id="Model" name="Model" required>
+            <input id="Model" name="model" required>
         </div>
         <div class="Adder">
             <label for="ID">ID: </label>
@@ -205,15 +166,15 @@
         </div>
         <div class="Adder">
             <label for="Room">Original Room: </label>
-            <input id="Room" name="Room" required>
+            <input id="Room" name="room" required>
         </div>
         <div class="Adder">
             <label for="Teacher">Teacher: </label>
-            <input id="Teacher" name="Teacher" required>
+            <input id="Teacher" name="teacher" required>
         </div>
         <div class="Adder">
             <label for="condition">Condition</label>
-            <select id="condition" name="Condition" required>
+            <select id="condition" name="condition" required>
                 <option value="5">Very Good</option>
                 <option value="4">Good</option>
                 <option value="3">Ok</option>
@@ -223,11 +184,12 @@
         </div>
         <div class="Adder">
             <label for="Manual">Link to PDF of Manual or state None: </label>
-            <input id="Manual" name="Manual" required>
+            <input id="Manual" name="manual" required>
         </div>
         <div class="Adder">
             <label for="movable">Movable?</label>
-            <input id="movable" name="movable" type="checkbox">
+            <input id='movable' type='checkbox' value='Yes' name='movable'>
+            <input id='movablehidden' type='hidden' value='No' name='movable'>
         </div>
         <div class="Adder">
             <label for="description">Description: </label>
@@ -241,7 +203,7 @@
 <div class="main">
     <h2>DataBase</h2>
     <div class="search">
-        <form action="search" method="search" class="search">
+        <form action="search" class="Adder" method="post">
             <div class="search">
                 <input name="Search" id="Search" required>
             </div>
@@ -252,31 +214,35 @@
     </div>
     <p></p>
     <table class="table" id="database">
+        <tr>{% for header in headers %}
+            <th> {{header}}</th>
+            {% endfor %}
+        </tr>
+        {% for item in items %}
+        <tr>{% for attribute in item %}
+            <td> {{attribute}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
         <!--[INDEX]-->
         <!--    Example Table-->
-        <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Age</th>
-        </tr>
-        <tr>
-            <td>Jill</td>
-            <td>Ja</td>
-            <td>asdf</td>
-        </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
-        </tr>
+        <!--        <tr>-->
+        <!--            <th>Firstname</th>-->
+        <!--            <th>Lastname</th>-->
+        <!--            <th>Age</th>-->
+        <!--        </tr>-->
+        <!--        <tr>-->
+        <!--            <td>Jill</td>-->
+        <!--            <td>Ja</td>-->
+        <!--            <td>asdf</td>-->
+        <!--        </tr>-->
+        <!--        <tr>-->
+        <!--            <td>Eve</td>-->
+        <!--            <td>Jackson</td>-->
+        <!--            <td>94</td>-->
+        <!--        </tr>-->
     </table>
     <form action="req_trans" class="Adder" method="post">
-        <div class="Adder">
-            <label for="item">Item</label>
-            <select id="item" name="item" required size="10">
-
-            </select>
-        </div>
         <div class="Adder">
             <label for="ID">ID: </label>
             <input id="ID" name="ID" required>
@@ -303,5 +269,8 @@
         <input class="styled" type="submit" value="Submit">
     </form>
 </div>
+    <script type="text/javascript" src="{{url_for('static', filename='jquery-3.4.1.min.js')}}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
+
 </body>
 </html>
