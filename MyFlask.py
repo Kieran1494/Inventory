@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
+    database.selected = None
     return render_template("index.html", headers=database.headers(), items=database.items(), )
 
 
@@ -19,13 +20,6 @@ def add_item():
         item = request.form.to_dict()
         logging.info(item)
         database.add(item)
-    return hello()
-
-
-@app.route('/history', methods=["POST"])
-def log():
-    log = request.form.to_dict()
-    database.requestDB(log)
     return hello()
 
 
@@ -39,7 +33,38 @@ def search():
 @app.route('/select_item', methods=["POST"])
 def select():
     item = request.form.to_dict()
-    print(item, file=sys.stdout)
+    selection = item["id"]
+    database.selected = selection
+    return "True"
+
+
+@app.route('/checkout', methods=["POST"])
+def checkout():
+    item = request.form.to_dict()
+    selection = item["id"]
+    database.selected = selection
+    return render_template()
+
+
+@app.route('/view_history', methods=["POST"])
+def history():
+    item = request.form.to_dict()
+    selection = item["id"]
+    database.selected = selection
+    return "True"
+
+
+@app.route('/remove_item', methods=["POST"])
+def remove():
+    item = request.form.to_dict()
+    selection = item["id"]
+    database.selected = selection
+    return "True"
+
+
+@app.route('/add_esx', methods=["POST"])
+def add_another():
+    item = request.form.to_dict()
     selection = item["id"]
     database.selected = selection
     return "True"

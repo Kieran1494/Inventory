@@ -35,6 +35,7 @@ function highlight_row() {
     var table = document.getElementById('database');
     var cells = table.getElementsByTagName('td');
 
+
     for (var i = 0; i < cells.length; i++) {
         // Take each cell
         var cell = cells[i];

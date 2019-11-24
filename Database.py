@@ -46,21 +46,11 @@ class Database:
         self.write()
 
     def search(self, terms):
-        '''
-        Searches the database for matching keywords from any column
-
-        args: terms (search terms, string)
-                multiple terms are separated by ","
-
-        returns: the table to replace the keyword in index.html (e.g. replace [INDEX] with the table of data
-                    matching the selected search terms)
-        '''
-
-        terms = terms.split(",")
+        terms = terms.lower().replace(" ", "").split(",")
         matched = []
         for index, item in self._data.iterrows():
             for term in terms:
-                if term in item.values.tolist():
+                if term in [str(x).lower().replace(" ", "") for x in item.values.tolist()]:
                     matched.append(item.values.tolist())
         if matched:
             matched = pd.DataFrame(matched, columns=self._param_args)
