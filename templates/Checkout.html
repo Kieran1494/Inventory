@@ -2,9 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
     <title>Checkout</title>
 </head>
 <body>
-
+<h1>Checking out: {% for attribute in item %}{{attribute}}{{ "," if not loop.last }} {% endfor %} </h1>
+<form action="checkout_item" class="Adder" method="post">
+    <div class="Adder">
+        <label for="Name">Your Name: </label>
+        <input id="Name" name="name" required>
+    </div>
+    <div class="Adder">
+        <label for="to">Going To: </label>
+        <input id="to" name="to" required>
+    </div>
+    <div class="Adder">
+        <label for="from">Going From: </label>
+        <input id="from" name="from" required>
+    </div>
+    <div class="Adder">
+        <label for="tout">Time Out: </label>
+        <input id="tout" name="tout" required>
+    </div>
+    <div class="Adder">
+        <label for="tin">Time In: </label>
+        <input id="tin" name="tin" required>
+    </div>
+    <input class="styled" type="submit" value="Checkout">
+</form>
 </body>
 </html>

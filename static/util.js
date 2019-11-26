@@ -26,7 +26,8 @@ function highlight_row() {
             var rowSelected = table.getElementsByTagName('tr')[rowId];
             rowSelected.style.backgroundColor = "black";
             rowSelected.className += " selected";
-            $.post(url, {id: rowSelected.cells[3].innerHTML}, function() {});
+            $.post(url, {hidden: rowSelected.cells[10].innerHTML}, function () {
+            });
 
         }
     }

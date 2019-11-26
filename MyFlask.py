@@ -33,17 +33,17 @@ def search():
 @app.route('/select_item', methods=["POST"])
 def select():
     item = request.form.to_dict()
-    selection = item["id"]
+    selection = item["hidden"]
     database.selected = selection
     return "True"
 
 
 @app.route('/checkout', methods=["POST"])
 def checkout():
-    item = request.form.to_dict()
-    selection = item["id"]
-    database.selected = selection
-    return render_template()
+    if database.selected is not None:
+        return render_template("checkout.html", item=database.get_selected())
+    else:
+        return hello()
 
 
 @app.route('/view_history', methods=["POST"])
@@ -71,7 +71,13 @@ def add_another():
 
 
 if __name__ == '__main__':
-    PARAM_ARGS = ("name", "make", "model", "ID", "room", "teacher", "condition", "movable", "manual", "description")
-    HISTORY_ARGS = ('id', 'rto', 'rfrom', 'tin', 'tout')
-    database = db(HISTORY_ARGS, PARAM_ARGS)
+    item_attributes = (
+        "name", "make", "model", "ID", "room", "teacher", "condition", "manual", "movable", "description", "hidden")
+    log_values = ('hidden', 'rto', 'rfrom', 'tin', 'tout')
+    condition_key = {"1": "Very Bad",
+                     "2": "Bad",
+                     "3": "OK",
+                     "4": "Good",
+                     "5": "Very Good"}
+    database = db(log_values, item_attributes, condition_key)
     app.run(host='0.0.0.0', port=8000, debug=True)
