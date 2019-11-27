@@ -1,17 +1,35 @@
+import os
 import sys
 
 import pandas as pd
 
 
-def read(headers, name="data.csv"):
+def read(headers, name):
+    ext = os.path.splitext(name)[1]
     try:
-        data = pd.read_csv(name)
+        if ext == ".csv":
+            data = pd.read_csv(name)
+        elif ext == ".xlsx":
+            data = pd.read_excel(name, sheet_name=None)
+        else:
+            print("ur gay", file=sys.stdout)
+            data = None
         if data is not None:
             return data
         else:
-            return pd.DataFrame({head: [] for head in headers})
+            if ext == ".csv":
+                return pd.DataFrame({head: [] for head in headers})
+            elif ext == ".xlsx":
+                return {}
+            else:
+                print("ur gay", file=sys.stdout)
     except FileNotFoundError:
-        return pd.DataFrame({head: [] for head in headers})
+        if ext == ".csv":
+            return pd.DataFrame({head: [] for head in headers})
+        elif ext == ".xlsx":
+            return {}
+        else:
+            print("ur gay", file=sys.stdout)
     except PermissionError:
         return "NO"
 
@@ -20,7 +38,7 @@ class Database:
     _log_data = ()
     _item_attributes = ()
     _data = pd.DataFrame
-    _log = pd.DataFrame
+    _log = {}
     _condition_key = ()
     _matched = None
     selected = None
@@ -29,9 +47,10 @@ class Database:
         self._log_data = log_data
         self._item_attributes = item_attributes
         self._condition_key = condition_key
-        self._data = read(item_attributes)
+        self._data = read(item_attributes, "data.csv")
+        self._log = read(log_data, "log.xlsx")
 
-    def write(self, name="data.csv", reading_numbers=False):
+    def write(self, name):
         """
         Writes data to file
         :param name: file name
@@ -39,15 +58,26 @@ class Database:
         :return: boolean whether function successfully wrote
         """
         # write file
-        self._data.to_csv(name, header=True, index=False)
+        ext = os.path.splitext(name)[1]
+        if ext == ".csv":
+            self._data.to_csv(name, header=True, index=False)
+        elif ext == ".xlsx":
+            writer = pd.ExcelWriter(name)
+            for sheet, frame in self._log.items():
+                frame.to_excel(writer, sheet_name=sheet, index=False)
+            writer.save()
+        else:
+            print("INVALID FILE NAME")
 
     def add(self, item):
         item = list(item.values())
         item.append(str(self._data.shape[0]))
+        self._log[item[len(item) - 1]] = pd.DataFrame(columns=self._log_data)
         itm = pd.DataFrame(item).transpose()
         itm.columns = self._item_attributes
         self._data = pd.concat([self._data, itm], axis=0)
-        self.write()
+        self.write("data.csv")
+        self.write("log.xlsx")
 
     def get_selected(self):
         row = self._data.loc[self._data['hidden'].isin([self.selected])]
@@ -65,23 +95,33 @@ class Database:
             matched = pd.DataFrame(matched, columns=self._item_attributes)
             self._matched = matched
 
-    def headers(self):
-        headers = []
-        for header in self._item_attributes:
-            headers.append(header.capitalize())
-        return headers
+    # def headers(self):
+    #     headers = []
+    #     for header in self._item_attributes:
+    #         headers.append(header.capitalize())
+    #     return headers
 
     def items(self):
-        if self._matched is not None:
-            matches = self._matched.values.tolist()
-            alldata = self._data.values.tolist()
-            alldata = [x for x in alldata if x not in matches]
-            ordered = matches + alldata
-        else:
-            ordered = self._data.values.tolist()
-        for i in range(len(ordered)):
-            ordered[i][6] = self._condition_key[str(ordered[i][6])]
-        return ordered
+        # if self._matched is not None:
+        #     matches = self._matched.values.tolist()
+        #     alldata = self._data.values.tolist()
+        #     alldata = [x for x in alldata if x not in matches]
+        #     ordered = matches + alldata
+        # else:
+        #     ordered = self._data.values.tolist()
+        return {"items": self._data.to_dict('records')}
+        # for i in range(len(ordered)):
+        #     ordered[i][6] = self._condition_key[str(ordered[i][6])]
+        # return ordered
+
+    def log(self, transaction):
+        frame = pd.DataFrame([transaction], columns=transaction.keys())
+        print(frame, file=sys.stdout)
+        frame.columns = self._log_data
+        print(self._log, file=sys.stdout)
+        self._log[self.selected] = pd.concat([self._log[self.selected], frame], axis=0)
+        print(self._log, file=sys.stdout)
+        self.write("log.xlsx")
 
 
 def sort_dict(self, **kwargs):

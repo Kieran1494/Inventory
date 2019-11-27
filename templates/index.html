@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script>
+        items = JSON.parse('{{ data | tojson | safe}}');
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
     <title>Inventory</title>
@@ -77,17 +80,17 @@
         </form>
     </div>
     <p></p>
-    <table class="table" id="database">
-        <tr>{% for header in headers %}
-            <th> {{header}}</th>
-            {% endfor %}
-        </tr>
-        {% for item in items %}
-        <tr>{% for attribute in item %}
-            <td> {{attribute}}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
+    <table class="table" id="database" tabulator-tooltips="true">
+        <!--        <tr>{% for header in headers %}-->
+        <!--            <th> {{header}}</th>-->
+        <!--            {% endfor %}-->
+        <!--        </tr>-->
+        <!--        {% for item in items %}-->
+        <!--        <tr>{% for attribute in item %}-->
+        <!--            <td> {{attribute}}</td>-->
+        <!--            {% endfor %}-->
+        <!--        </tr>-->
+        <!--        {% endfor %}-->
         <!--[INDEX]-->
         <!--    Example Table-->
         <!--        <tr>-->
@@ -106,12 +109,11 @@
         <!--            <td>94</td>-->
         <!--        </tr>-->
     </table>
-    <form action="checkout" class="Adder" method="post">
-        <input class="styled" type="submit" value="Checkout">
-    </form>
+    <input class="styled" type="submit" value="Checkout" , id="checkout">
 </div>
-    <script type="text/javascript" src="{{url_for('static', filename='jquery-3.4.1.min.js')}}"></script>
-    <script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
-
+<script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='tabulator/tabulator.min.js')}}"></script>
+<script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
+<link href="{{url_for('static', filename='tabulator/tabulator_modern.min.css')}}" rel="stylesheet">
 </body>
 </html>

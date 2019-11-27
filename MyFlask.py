@@ -1,4 +1,3 @@
-import json
 import logging
 import sys
 
@@ -11,7 +10,7 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     database.selected = None
-    return render_template("index.html", headers=database.headers(), items=database.items(), )
+    return render_template("index.html", data=database.items())
 
 
 @app.route('/add_item', methods=["POST"])
@@ -46,6 +45,14 @@ def checkout():
         return hello()
 
 
+@app.route('/checkout_item', methods=["POST"])
+def checkout_item():
+    log = request.form.to_dict()
+    print(log, file=sys.stdout)
+    database.log(log)
+    return hello()
+
+
 @app.route('/view_history', methods=["POST"])
 def history():
     item = request.form.to_dict()
@@ -73,7 +80,7 @@ def add_another():
 if __name__ == '__main__':
     item_attributes = (
         "name", "make", "model", "ID", "room", "teacher", "condition", "manual", "movable", "description", "hidden")
-    log_values = ('hidden', 'rto', 'rfrom', 'tin', 'tout')
+    log_values = ('name', 'to', 'from', 'tout', 'tin')
     condition_key = {"1": "Very Bad",
                      "2": "Bad",
                      "3": "OK",
