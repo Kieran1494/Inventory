@@ -42,11 +42,11 @@
         <div class="Adder">
             <label for="condition">Condition</label>
             <select id="condition" name="condition" required>
-                <option value="5">Very Good</option>
-                <option value="4">Good</option>
-                <option value="3">Ok</option>
-                <option value="2">Bad</option>
-                <option value="1">Very Bad</option>
+                <option value="Very Good">Very Good</option>
+                <option value="Good">Good</option>
+                <option value="Ok">Ok</option>
+                <option value="Bad">Bad</option>
+                <option value="Very Bad">Very Bad</option>
             </select>
         </div>
         <div class="Adder">
@@ -81,39 +81,14 @@
     </div>
     <p></p>
     <table class="table" id="database" tabulator-tooltips="true">
-        <!--        <tr>{% for header in headers %}-->
-        <!--            <th> {{header}}</th>-->
-        <!--            {% endfor %}-->
-        <!--        </tr>-->
-        <!--        {% for item in items %}-->
-        <!--        <tr>{% for attribute in item %}-->
-        <!--            <td> {{attribute}}</td>-->
-        <!--            {% endfor %}-->
-        <!--        </tr>-->
-        <!--        {% endfor %}-->
-        <!--[INDEX]-->
-        <!--    Example Table-->
-        <!--        <tr>-->
-        <!--            <th>Firstname</th>-->
-        <!--            <th>Lastname</th>-->
-        <!--            <th>Age</th>-->
-        <!--        </tr>-->
-        <!--        <tr>-->
-        <!--            <td>Jill</td>-->
-        <!--            <td>Ja</td>-->
-        <!--            <td>asdf</td>-->
-        <!--        </tr>-->
-        <!--        <tr>-->
-        <!--            <td>Eve</td>-->
-        <!--            <td>Jackson</td>-->
-        <!--            <td>94</td>-->
-        <!--        </tr>-->
+        <!--        tabulator table, see javascript-->
     </table>
     <input class="styled" type="submit" value="Checkout" , id="checkout">
 </div>
 <script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='tabulator/tabulator.min.js')}}"></script>
 <script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
+<script type=text/javascript src="{{url_for('static', filename='index.js')}}"></script>
 <link href="{{url_for('static', filename='tabulator/tabulator_modern.min.css')}}" rel="stylesheet">
 </body>
 </html>

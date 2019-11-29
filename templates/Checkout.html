@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Checking out: {% for attribute in item %}{{attribute}}{{ "," if not loop.last }} {% endfor %} </h1>
-<form action="checkout_item" class="Adder" method="post">
+<form action="checkout_item" class="Adder" method="post" id="checkout">
     <div class="Adder">
         <label for="name">Your Name: </label>
         <input id="name" name="name" required>
@@ -28,7 +28,10 @@
         <label for="tin">Time In: </label>
         <input id="tin" name="tin" required>
     </div>
-    <input class="styled" type="submit" value="Checkout">
 </form>
+<input class="styled" type="submit" value="Checkout" id="checkout_item">
+<script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
+<script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
+<script type=text/javascript src="{{url_for('static', filename='checkout.js')}}"></script>
 </body>
 </html>

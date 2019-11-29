@@ -29,18 +29,11 @@ def search():
     return hello()
 
 
-@app.route('/select_item', methods=["POST"])
-def select():
-    item = request.form.to_dict()
-    selection = item["hidden"]
-    database.selected = selection
-    return "True"
-
-
 @app.route('/checkout', methods=["POST"])
 def checkout():
-    if database.selected is not None:
-        return render_template("checkout.html", item=database.get_selected())
+    item_ID = request.form.to_dict()["hidden"]
+    if item_ID is not None:
+        return render_template("checkout.html", item=database.get_selected(item_ID))
     else:
         return hello()
 

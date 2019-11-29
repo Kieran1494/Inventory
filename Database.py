@@ -79,8 +79,8 @@ class Database:
         self.write("data.csv")
         self.write("log.xlsx")
 
-    def get_selected(self):
-        row = self._data.loc[self._data['hidden'].isin([self.selected])]
+    def get_selected(self, item_ID):
+        row = self._data.loc[self._data['hidden'].isin([item_ID])]
         row = row.values.tolist()[0]
         return row[:4]
 
@@ -94,12 +94,6 @@ class Database:
         if matched:
             matched = pd.DataFrame(matched, columns=self._item_attributes)
             self._matched = matched
-
-    # def headers(self):
-    #     headers = []
-    #     for header in self._item_attributes:
-    #         headers.append(header.capitalize())
-    #     return headers
 
     def items(self):
         # if self._matched is not None:
