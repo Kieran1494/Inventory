@@ -48,6 +48,9 @@ class Database:
         self._condition_key = condition_key
         self._data = read(item_attributes, "data.csv")
         self._log = read(log_data, "log.xlsx")
+        if self._log == {}:
+            for i in range(self._data.shape[0]):
+                self._log[str(i)] = pd.DataFrame(columns=self._log_data)
 
     def write(self, name):
         """
@@ -107,12 +110,12 @@ class Database:
         #     ordered[i][6] = self._condition_key[str(ordered[i][6])]
         # return ordered
 
-    def log(self, transaction):
+    def log(self, transaction, hidden):
         frame = pd.DataFrame([transaction], columns=transaction.keys())
         print(frame, file=sys.stdout)
         frame.columns = self._log_data
         print(self._log, file=sys.stdout)
-        self._log[self.selected] = pd.concat([self._log[self.selected], frame], axis=0)
+        self._log[hidden] = pd.concat([self._log[hidden], frame], axis=0)
         print(self._log, file=sys.stdout)
         self.write("log.xlsx")
 

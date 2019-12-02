@@ -4,10 +4,11 @@ $("#checkout_item").click(function () {
     var form = $('#checkout').serializeArray();
     var checkoutInfo = {};
     form.forEach(function (item, index) {
-        console.log(item, index);
         checkoutInfo[item["name"]] = item["value"];
     });
     checkoutInfo["hidden"] = item_check;
+    var d = new Date();
+    checkoutInfo["date"] = d.toLocaleDateString();
     post(url, checkoutInfo);
     swal({
         title: "Checkout Successful",

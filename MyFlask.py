@@ -39,9 +39,13 @@ def checkout():
 
 @app.route('/checkout_item', methods=["POST"])
 def checkout_item():
-    log = request.form.to_dict()
-    print(log, file=sys.stdout)
-    database.log(log)
+    info = request.form.to_dict()
+    hidden = info["hidden"]
+    log = dict()
+    for key, value in info.items():
+        if "hidden" not in str(key):
+            log[key] = value
+    database.log(log, hidden)
     return hello()
 
 
@@ -72,7 +76,7 @@ def add_another():
 if __name__ == '__main__':
     item_attributes = (
         "name", "make", "model", "ID", "room", "teacher", "condition", "manual", "movable", "description", "hidden")
-    log_values = ('name', 'to', 'from', 'tout', 'tin')
+    log_values = ('name', 'to', 'from', 'tout', 'tin', "date")
     condition_key = {"1": "Very Bad",
                      "2": "Bad",
                      "3": "OK",
