@@ -45,10 +45,20 @@ $("#select-all").click(function () {
 $("#deselect-all").click(function () {
     table.deselectRow();
 });
-var item;
+
 $("#checkout").click(function () {
+    var item;
     var url = "checkout";
-    item = table.getSelectedData()[0];
-    post(url, item);
-    localStorage.setItem("item", item);
+    item = table.getSelectedData();
+    if (item && item.length && item[0]) {
+        item = item[0];
+        var key = item["hidden"];
+        localStorage.setItem("item", key);
+        post(url, item);
+    } else {
+        swal({
+            title: "No Item Selected",
+            icon: "error",
+        });
+    }
 });

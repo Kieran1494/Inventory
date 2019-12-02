@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='time-picker/clockpicker.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='time-picker/standalone.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{url_for('static', filename='time-picker/jquery-clockpicker.min.css')}}">
     <title>Checkout</title>
 </head>
 <body>
@@ -20,17 +26,20 @@
         <label for="from">Going From: </label>
         <input id="from" name="from" required>
     </div>
-    <div class="Adder">
+    <div class="Adder" data-placement="right" data-align="top">
         <label for="tout">Time Out: </label>
-        <input id="tout" name="tout" required>
+        <input type="text" class="form-control" id="tout" required>
     </div>
-    <div class="Adder">
-        <label for="tin">Time In: </label>
-        <input id="tin" name="tin" required>
+    <div class="Adder" data-placement="right" data-align="top">
+        <label for="tin">Time Out: </label>
+        <input type="text" class="form-control" id="tin" required>
     </div>
 </form>
 <input class="styled" type="submit" value="Checkout" id="checkout_item">
 <script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='alerts/sweetalert.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='time-picker/jquery-clockpicker.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='time-picker/clockpicker.js')}}"></script>
 <script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
 <script type=text/javascript src="{{url_for('static', filename='checkout.js')}}"></script>
 </body>

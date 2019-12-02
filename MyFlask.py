@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    database.selected = None
     return render_template("index.html", data=database.items())
 
 

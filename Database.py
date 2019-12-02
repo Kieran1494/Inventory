@@ -41,7 +41,6 @@ class Database:
     _log = {}
     _condition_key = ()
     _matched = None
-    selected = None
 
     def __init__(self, log_data, item_attributes, condition_key):
         self._log_data = log_data
