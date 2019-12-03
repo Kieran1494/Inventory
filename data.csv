@@ -1,3 +1,5 @@
-name,make,model,ID,room ,teacher,condition,manual,movable,description,hidden
+name,make,model,ID,room,teacher,condition,manual,movable,description,hidden
 Scale,Mettler-Toledo,PL3002,7,Crowe,Crowe,Very Good,None,Yes,Scale Accurate to 3 Decimal places,0
 Cart,Vernier,GoDirect,124983,Crowe,Crowe,Good,None,No,Cart on track with encoder,1
+Press,Mark 10,Press,1,Mr. T,Mr. T,Very Good,None,No,Compression,2
+Press,Mark 10,Press,1,Mr. T,Mr. T,Very Good,None,No,Compression,3

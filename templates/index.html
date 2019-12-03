@@ -2,7 +2,7 @@
 <html>
 <head>
     <script>
-        items = JSON.parse('{{ data | tojson | safe}}');
+        var items = JSON.parse('{{ data | tojson | safe}}');
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
@@ -80,10 +80,14 @@
         </form>
     </div>
     <p></p>
-    <table class="table" id="database" tabulator-tooltips="true">
-        <!--        tabulator table, see javascript-->
-    </table>
-    <input class="styled" type="submit" value="Checkout" , id="checkout">
+    <div id="database" class="data"></div>
+    <!--    <table class="table" id="database" tabulator-tooltips="true">-->
+    <!--        &lt;!&ndash;        tabulator table, see javascript&ndash;&gt;-->
+    <!--    </table>-->
+    <div class="inline">
+        <input class="styled" type="submit" value="Checkout" id="checkout">
+        <input class="styled" type="submit" value="View History" id="history">
+    </div>
 </div>
 <script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='tabulator/tabulator.min.js')}}"></script>

@@ -68,10 +68,19 @@ div.Adder {
     font-size: 16px;
 }
 
+table.data {
+    margin-left: 0;
+    padding: 0;
+}
+
+div.inline {
+    display: inline;
+}
+
 .main {
     margin-left: 310px; /* Same width as the sidebar + left position in px */
     font-size: 28px; /* Increased text to enable scrolling */
-    padding: 0px 10px;
+    padding: 0 10px;
 }
 
 @media screen and (max-height: 450px) {

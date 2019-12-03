@@ -49,12 +49,13 @@ def checkout_item():
     return hello()
 
 
-@app.route('/view_history', methods=["POST"])
+@app.route('/history', methods=["POST"])
 def history():
-    item = request.form.to_dict()
-    selection = item["id"]
-    database.selected = selection
-    return "True"
+    item_ID = request.form.to_dict()["hidden"]
+    if item_ID is not None:
+        return render_template("history.html", item=database.get_selected(item_ID), log=database.get_log(item_ID))
+    else:
+        return hello()
 
 
 @app.route('/remove_item', methods=["POST"])
@@ -84,3 +85,4 @@ if __name__ == '__main__':
                      "5": "Very Good"}
     database = db(log_values, item_attributes, condition_key)
     app.run(host='0.0.0.0', port=8000, debug=True)
+    print("", file=sys.stdout)

@@ -3,10 +3,11 @@ if (document.getElementById("movable").checked) {
 }
 
 var table = new Tabulator("#database", {
-    layout: "fitDataFill",
     selectable: 1, //make rows selectable
+    layout: "fitColumns",
+    height: "311px",
     columns: [
-        {title: "Name", field: "name", align: "center", widthShrink: true},
+        {title: "Name", field: "name", align: "center"},
         {title: "Make", field: "make", align: "center"},
         {title: "Model", field: "model", align: "center"},
         {title: "ID", field: "ID", align: "center", sorter: "number"},
@@ -47,9 +48,15 @@ $("#deselect-all").click(function () {
 });
 
 $("#checkout").click(function () {
-    var item;
-    var url = "checkout";
-    item = table.getSelectedData();
+    sendItem("checkout")
+});
+
+$("#history").click(function () {
+    sendItem("history")
+});
+
+function sendItem(url) {
+    var item = table.getSelectedData();
     if (item && item.length && item[0]) {
         item = item[0];
         var key = item["hidden"];
@@ -61,4 +68,4 @@ $("#checkout").click(function () {
             icon: "error",
         });
     }
-});
+}

@@ -40,7 +40,6 @@ class Database:
     _data = pd.DataFrame
     _log = {}
     _condition_key = ()
-    _matched = None
 
     def __init__(self, log_data, item_attributes, condition_key):
         self._log_data = log_data
@@ -95,7 +94,9 @@ class Database:
                     matched.append(item.values.tolist())
         if matched:
             matched = pd.DataFrame(matched, columns=self._item_attributes)
-            self._matched = matched
+            return matched
+        else:
+            return []
 
     def items(self):
         # if self._matched is not None:
@@ -112,12 +113,20 @@ class Database:
 
     def log(self, transaction, hidden):
         frame = pd.DataFrame([transaction], columns=transaction.keys())
-        print(frame, file=sys.stdout)
         frame.columns = self._log_data
-        print(self._log, file=sys.stdout)
         self._log[hidden] = pd.concat([self._log[hidden], frame], axis=0)
-        print(self._log, file=sys.stdout)
         self.write("log.xlsx")
+
+    def get_log(self, hidden):
+        item_log = self._log[hidden].to_dict()
+        final = {}
+        for key in item_log.keys():
+            trans = []
+            for log in item_log[key].keys():
+                trans.append(item_log[key][log])
+            final[key] = trans
+        res = [dict(zip(final, i)) for i in zip(*final.values())]
+        return res
 
 
 def sort_dict(self, **kwargs):
