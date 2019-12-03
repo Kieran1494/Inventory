@@ -4,36 +4,6 @@ import sys
 import pandas as pd
 
 
-def read(headers, name):
-    ext = os.path.splitext(name)[1]
-    try:
-        if ext == ".csv":
-            data = pd.read_csv(name)
-        elif ext == ".xlsx":
-            data = pd.read_excel(name, sheet_name=None)
-        else:
-            print("ur gay", file=sys.stdout)
-            data = None
-        if data is not None:
-            return data
-        else:
-            if ext == ".csv":
-                return pd.DataFrame({head: [] for head in headers})
-            elif ext == ".xlsx":
-                return {}
-            else:
-                print("ur gay", file=sys.stdout)
-    except FileNotFoundError:
-        if ext == ".csv":
-            return pd.DataFrame({head: [] for head in headers})
-        elif ext == ".xlsx":
-            return {}
-        else:
-            print("ur gay", file=sys.stdout)
-    except PermissionError:
-        return "NO"
-
-
 class Database:
     _log_data = ()
     _item_attributes = ()
@@ -106,6 +76,7 @@ class Database:
         #     ordered = matches + alldata
         # else:
         #     ordered = self._data.values.tolist()
+        print(self._data, file=sys.stdout)
         return {"items": self._data.to_dict('records')}
         # for i in range(len(ordered)):
         #     ordered[i][6] = self._condition_key[str(ordered[i][6])]
@@ -128,13 +99,42 @@ class Database:
         res = [dict(zip(final, i)) for i in zip(*final.values())]
         return res
 
+    def update_args(self, new_history_args=None, new_param_args=None):
+        if new_param_args is not None:
+            self._item_attributes = new_param_args
+        if new_history_args is not None:
+            self._log_data = new_history_args
+
 
 def sort_dict(self, **kwargs):
     return tuple(kwargs.get(x, None) for x in kwargs.get("dict"))
 
 
-def update_args(self, new_history_args=None, new_param_args=None):
-    if new_param_args is not None:
-        self._item_attributes = new_param_args
-    if new_history_args is not None:
-        self._log_data = new_history_args
+def read(headers, name):
+    ext = os.path.splitext(name)[1]
+    os.chdir(r"C:\Users\Kieran\OneDrive\School\High School\AOS\Science\Senior Research Project\Inventory\Python")
+    try:
+        if ext == ".csv":
+            data = pd.read_csv(name)
+        elif ext == ".xlsx":
+            data = pd.read_excel(name, sheet_name=None)
+        else:
+            data = None
+        if data is not None:
+            return data
+        else:
+            if ext == ".csv":
+                return pd.DataFrame({head: [] for head in headers})
+            elif ext == ".xlsx":
+                return {}
+            else:
+                print("ur gay", file=sys.stdout)
+    except FileNotFoundError:
+        if ext == ".csv":
+            return pd.DataFrame({head: [] for head in headers})
+        elif ext == ".xlsx":
+            return {}
+        else:
+            print("ur gay", file=sys.stdout)
+    except PermissionError:
+        print("ur mega gay", file=sys.stdout)
