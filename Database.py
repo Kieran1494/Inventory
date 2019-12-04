@@ -75,39 +75,11 @@ class Database:
         row = row.values.tolist()[0]
         return row[:4]
 
-    def search(self, terms):
-        """
-        TODO: returns dataframe of the items that had matching terms with search key
-        currently is never called
-        :param terms: terms to search for
-        """
-        terms = terms.lower().replace(" ", "").split(",")
-        matched = []
-        for index, item in self._data.iterrows():
-            for term in terms:
-                if term in [str(x).lower().replace(" ", "") for x in item.values.tolist()]:
-                    matched.append(item.values.tolist())
-        if matched:
-            matched = pd.DataFrame(matched, columns=self._item_attributes)
-            return matched
-        else:
-            return []
-
     def items(self):
         """
         return all items in database for display
         """
         return {"items": self._data.to_dict('records')}
-        # if self._matched is not None:
-        #     matches = self._matched.values.tolist()
-        #     alldata = self._data.values.tolist()
-        #     alldata = [x for x in alldata if x not in matches]
-        #     ordered = matches + alldata
-        # else:
-        #     ordered = self._data.values.tolist()
-        # for i in range(len(ordered)):
-        #     ordered[i][6] = self._condition_key[str(ordered[i][6])]
-        # return ordered
 
     def log(self, transaction, hidden):
         """

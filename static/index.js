@@ -27,6 +27,28 @@ var table = new Tabulator("#database", {
     },
 });
 
+function matchAny(data, filterParams) {
+    //data - the data for the row being filtered
+    //filterParams - params object passed to the filter
+
+    var match = false;
+
+    for (var key in data) {
+        if (JSON.stringify(data[key]).toLowerCase().search(filterParams.value) !== -1) {
+            match = true;
+        }
+    }
+
+    return match;
+}
+
+$("#Search").keyup(function () {
+    table.setFilter(matchAny, {value: $("#Search").val().toLowerCase()});
+    if ($("#Search").val() === " ") {
+        table.clearFilter()
+    }
+});
+
 // set database items
 data = items["items"];
 table.setData(data);
@@ -55,7 +77,14 @@ $("#deselect-all").click(function () {
  * checkout selected item
  */
 $("#checkout").click(function () {
-    sendItem("checkout")
+    if (getItemInfo("movable") !== "Yes") {
+        swal({
+            title: "item is not movable",
+            icon: "error",
+        });
+    } else {
+        sendItem("checkout")
+    }
 });
 
 /**
@@ -70,16 +99,23 @@ $("#history").click(function () {
  * @param url the url to send the id to
  */
 function sendItem(url) {
+    var info = getItemInfo("hidden", true);
+    localStorage.setItem("item", info[0]);
+    post(url, info[1]);
+}
+
+function getItemInfo(key, full = false) {
     var item = table.getSelectedData();
     if (item && item.length && item[0]) {
         item = item[0];
-        var key = item["hidden"];
-        localStorage.setItem("item", key);
-        post(url, item);
-    } else {
-        swal({
-            title: "No Item Selected",
-            icon: "error",
-        });
+        if (!full) {
+            return item[key];
+        } else {
+            return [item[key], item]
+        }
     }
+    swal({
+        title: "No Item Selected",
+        icon: "error",
+    });
 }

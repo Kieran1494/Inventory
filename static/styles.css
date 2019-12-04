@@ -98,16 +98,9 @@ label, input {
     margin-bottom: 10px;
 }
 
-form.search {
-    display: inline-block;
-    padding: 0 24px 30px 12px;
-    grid-area: main;
-    box-sizing: border-box;
-    width: 100%;
-}
-
 div.search {
     display: inline-block;
+    font-size: 20px;
 }
 
 div.submit {
@@ -117,11 +110,6 @@ div.submit {
 
 table.table {
     border-collapse: collapse;
-}
-
-#database tr th:last-child,
-#database tr td:last-child {
-    display: none;
 }
 
 
