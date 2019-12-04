@@ -2,23 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+
+    {#    styles#}
+    <link href="{{ url_for('static', filename='tabulator/tabulator_modern.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
     <script>
+        {#load data from python#}
         var log = JSON.parse('{{ log | tojson | safe}}');
     </script>
     <title>History</title>
 </head>
 <body>
-<h1>Log For: {% for attribute in item %}{{attribute}}{{ "," if not loop.last }} {% endfor %} </h1>
+{#display item using info from python#}
+<h1>Log For: {% for attribute in item %}{{ attribute }}{{ "," if not loop.last }} {% endfor %} </h1>
+
+{#table of log history#}
 <div id="database" class="data"></div>
+
+{#return button#}
 <input class="styled" type="submit" value="Checkout" id="checkout">
 
-<script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='tabulator/tabulator.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='alerts/sweetalert.min.js')}}"></script>
-<script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
-<script type=text/javascript src="{{url_for('static', filename='history.js')}}"></script>
-
-<link href="{{url_for('static', filename='tabulator/tabulator_modern.min.css')}}" rel="stylesheet">
+{#scripts#}
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='tabulator/tabulator.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='alerts/sweetalert.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='util.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='history.js') }}"></script>
 </body>
 </html>

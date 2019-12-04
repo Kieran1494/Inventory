@@ -1,7 +1,9 @@
+// make movable true false not only true
 if (document.getElementById("movable").checked) {
     document.getElementById('movablehidden').disabled = true;
 }
 
+// database table
 var table = new Tabulator("#database", {
     selectable: 1, //make rows selectable
     layout: "fitColumns",
@@ -24,6 +26,8 @@ var table = new Tabulator("#database", {
         $("#select-stats span").text(data.length);
     },
 });
+
+// set database items
 data = items["items"];
 table.setData(data);
 
@@ -47,14 +51,24 @@ $("#deselect-all").click(function () {
     table.deselectRow();
 });
 
+/**
+ * checkout selected item
+ */
 $("#checkout").click(function () {
     sendItem("checkout")
 });
 
+/**
+ * request history of selected item
+ */
 $("#history").click(function () {
     sendItem("history")
 });
 
+/**
+ * send the hidden id to python at url
+ * @param url the url to send the id to
+ */
 function sendItem(url) {
     var item = table.getSelectedData();
     if (item && item.length && item[0]) {

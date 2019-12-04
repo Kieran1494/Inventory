@@ -9,11 +9,17 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
+    """
+    default page display
+    """
     return render_template("index.html", data=database.items())
 
 
 @app.route('/add_item', methods=["POST"])
 def add_item():
+    """
+    add item to database using dict from post
+    """
     if request.method == "POST":
         item = request.form.to_dict()
         logging.info(item)
@@ -23,13 +29,19 @@ def add_item():
 
 @app.route('/search', methods=["POST"])
 def search():
+    """
+    TODO: search for item in database, do in js?
+    currently not working
+    """
     search = request.form.to_dict()
-    database.search(search["Search"])
     return hello()
 
 
 @app.route('/checkout', methods=["POST"])
 def checkout():
+    """
+    checkout item based on hidden item id from table
+    """
     item_ID = request.form.to_dict()["hidden"]
     if item_ID is not None:
         return render_template("checkout.html", item=database.get_selected(item_ID))
@@ -39,6 +51,9 @@ def checkout():
 
 @app.route('/checkout_item', methods=["POST"])
 def checkout_item():
+    """
+    log checkout of item using form info
+    """
     info = request.form.to_dict()
     hidden = info["hidden"]
     log = dict()
@@ -51,6 +66,9 @@ def checkout_item():
 
 @app.route('/history', methods=["POST"])
 def history():
+    """
+    display item's log history
+    """
     item_ID = request.form.to_dict()["hidden"]
     if item_ID is not None:
         return render_template("history.html", item=database.get_selected(item_ID), log=database.get_log(item_ID))
@@ -58,19 +76,23 @@ def history():
         return hello()
 
 
-@app.route('/remove_item', methods=["POST"])
+@app.route('/remove', methods=["POST"])
 def remove():
+    """
+    TODO: remove item from database
+    currently not working
+    """
     item = request.form.to_dict()
-    selection = item["id"]
-    database.selected = selection
     return "True"
 
 
 @app.route('/add_esx', methods=["POST"])
 def add_another():
+    """
+    TODO: add another existing item
+    currently not working
+    """
     item = request.form.to_dict()
-    selection = item["id"]
-    database.selected = selection
     return "True"
 
 

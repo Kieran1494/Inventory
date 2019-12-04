@@ -2,14 +2,20 @@
 <html>
 <head>
     <script>
+        {#load data from python#}
         var items = JSON.parse('{{ data | tojson | safe}}');
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+
+    {#    styles#}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="{{ url_for('static', filename='tabulator/tabulator_modern.min.css') }}" rel="stylesheet">
+
     <title>Inventory</title>
 </head>
 <body>
 
+{#item adder#}
 <div class="sidenav">
     <div class="head">
         Add Item
@@ -69,6 +75,7 @@
 
 <div class="main">
     <h2>DataBase</h2>
+    {#    search box#}
     <div class="search">
         <form action="search" class="Adder" method="post">
             <div class="search">
@@ -80,21 +87,20 @@
         </form>
     </div>
     <p></p>
+    {#    database#}
     <div id="database" class="data"></div>
-    <!--    <table class="table" id="database" tabulator-tooltips="true">-->
-    <!--        &lt;!&ndash;        tabulator table, see javascript&ndash;&gt;-->
-    <!--    </table>-->
+
+    {#    database buttons#}
     <div class="inline">
         <input class="styled" type="submit" value="Checkout" id="checkout">
         <input class="styled" type="submit" value="View History" id="history">
     </div>
 </div>
-<script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='tabulator/tabulator.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='alerts/sweetalert.min.js')}}"></script>
-<script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
-<script type=text/javascript src="{{url_for('static', filename='index.js')}}"></script>
-
-<link href="{{url_for('static', filename='tabulator/tabulator_modern.min.css')}}" rel="stylesheet">
+{#scripts#}
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='tabulator/tabulator.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='alerts/sweetalert.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='util.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>

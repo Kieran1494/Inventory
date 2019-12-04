@@ -2,17 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {#    styles#}
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static', filename='time-picker/clockpicker.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='time-picker/standalone.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='time-picker/clockpicker.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='time-picker/standalone.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" type="text/css"
-          href="{{url_for('static', filename='time-picker/jquery-clockpicker.min.css')}}">
+          href="{{ url_for('static', filename='time-picker/jquery-clockpicker.min.css') }}">
     <title>Checkout</title>
 </head>
 <body>
-<h1>Checking out: {% for attribute in item %}{{attribute}}{{ "," if not loop.last }} {% endfor %} </h1>
+
+{#display item using info from python#}
+<h1>Checking out: {% for attribute in item %}{{ attribute }}{{ "," if not loop.last }} {% endfor %} </h1>
+
+{#form for checkout#}
 <form action="checkout_item" class="Adder" method="post" id="checkout">
     <div class="Adder">
         <label for="name">Your Name: </label>
@@ -35,12 +40,16 @@
         <input class="form-control" id="tin" name="tin" required>
     </div>
 </form>
+
+{#submit#}
 <input class="styled" type="submit" value="Checkout" id="checkout_item">
-<script type="text/javascript" src="{{url_for('static', filename='jquery/jquery-3.4.1.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='alerts/sweetalert.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='time-picker/jquery-clockpicker.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='time-picker/clockpicker.js')}}"></script>
-<script type=text/javascript src="{{url_for('static', filename='util.js')}}"></script>
-<script type=text/javascript src="{{url_for('static', filename='checkout.js')}}"></script>
+
+{#scripts#}
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='alerts/sweetalert.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='time-picker/jquery-clockpicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='time-picker/clockpicker.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='util.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='checkout.js') }}"></script>
 </body>
 </html>
