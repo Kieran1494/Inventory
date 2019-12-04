@@ -27,6 +27,12 @@ var table = new Tabulator("#database", {
     },
 });
 
+/**
+ * determine if a row is a match
+ * @param data the info in the table
+ * @param filterParams what to filter with
+ * @returns {boolean} whether a row has a value that matches the search
+ */
 function matchAny(data, filterParams) {
     //data - the data for the row being filtered
     //filterParams - params object passed to the filter
@@ -42,8 +48,13 @@ function matchAny(data, filterParams) {
     return match;
 }
 
+/**
+ * grab search info and only display matching table rows
+ */
 $("#Search").keyup(function () {
+    // set filter
     table.setFilter(matchAny, {value: $("#Search").val().toLowerCase()});
+    // clear if search box is empty
     if ($("#Search").val() === " ") {
         table.clearFilter()
     }
@@ -77,6 +88,7 @@ $("#deselect-all").click(function () {
  * checkout selected item
  */
 $("#checkout").click(function () {
+    // check if movable
     if (getItemInfo("movable") !== "Yes") {
         swal({
             title: "item is not movable",
@@ -104,6 +116,12 @@ function sendItem(url) {
     post(url, info[1]);
 }
 
+/**
+ * get the result of a field and if full the whole row info
+ * @param key key in table
+ * @param full boolean whether the full row info is wanted
+ * @returns {*[]|*} result of a field and if full the whole row info combined as list
+ */
 function getItemInfo(key, full = false) {
     var item = table.getSelectedData();
     if (item && item.length && item[0]) {

@@ -9,15 +9,15 @@ class Database:
     _item_attributes = ()
     _data = pd.DataFrame
     _log = {}
-    _condition_key = ()
 
-    def __init__(self, log_data, item_attributes, condition_key):
+    def __init__(self, log_data, item_attributes):
         """
-        load in data to ram and column headers
+        load data to ram and column headers
+        :param log_data: tuple or list of log data headers
+        :param item_attributes: tuple or list of item attributes
         """
         self._log_data = log_data
         self._item_attributes = item_attributes
-        self._condition_key = condition_key
         self._data = read(item_attributes, "data.csv")
         self._log = read(log_data, "log.xlsx")
         if self._log == {}:
@@ -68,6 +68,7 @@ class Database:
         """
         get information to display for item checkout or history
         :param item_ID: hidden id of item
+        :return important display info
         """
         # grab row with id
         row = self._data.loc[self._data['hidden'].isin([item_ID])]
@@ -78,6 +79,7 @@ class Database:
     def items(self):
         """
         return all items in database for display
+        :return all items in database
         """
         return {"items": self._data.to_dict('records')}
 
@@ -99,6 +101,7 @@ class Database:
         """
         get all transactions for an item
         :param hidden: hidden id for the item
+        :return listified dicts of log info
         """
         # get dict version of log
         item_log = self._log[hidden].to_dict()
@@ -137,6 +140,7 @@ def read(headers, name):
     if the file is a xlsx it reads into log
     :param headers: column headers
     :param name: file name
+    :return dataframe or dict of loaded in data or defaults
     """
     # get whether it is a csv or xlsx
     ext = os.path.splitext(name)[1]
