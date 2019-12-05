@@ -21,7 +21,9 @@
 <div id="database" class="data"></div>
 
 {#return button#}
-<input class="styled" type="submit" value="Checkout" id="checkout">
+<form method="post" action="index">
+    <input class="styled" type="submit" value="Return" id="checkout">
+</form>
 
 {#scripts#}
 <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js') }}"></script>

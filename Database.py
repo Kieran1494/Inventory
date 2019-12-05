@@ -103,18 +103,7 @@ class Database:
         :param hidden: hidden id for the item
         :return listified dicts of log info
         """
-        # get dict version of log
-        item_log = self._log[hidden].to_dict()
-
-        # convert to list of dicts
-        final = {}
-        for key in item_log.keys():
-            trans = []
-            for log in item_log[key].keys():
-                trans.append(item_log[key][log])
-            final[key] = trans
-        res = [dict(zip(final, i)) for i in zip(*final.values())]
-        return res
+        return {"items": self._log[hidden].to_dict('records')}
 
     def add_esc(self, new, hidden_ID):
         """
