@@ -87,24 +87,33 @@ def remove():
 
 
 @app.route('/add_esx', methods=["POST"])
-def add_another():
+def add_esx():
     """
-    TODO: add another existing item
     currently not working
     """
-    item = request.form.to_dict()
-    return "True"
+    item_ID = request.form.to_dict()["hidden"]
+    return render_template("add_another.html", item=database.get_selected(item_ID)[:3])
+
+
+@app.route('/add_another', methods=["POST"])
+def add_another():
+    """
+    currently not working
+    """
+    addition = request.form.to_dict()
+    item_ID = addition["hidden"]
+    info = dict()
+    for key, value in addition.items():
+        if "hidden" not in str(key):
+            info[key] = value
+    database.add_esc(info, item_ID)
+    return hello()
 
 
 if __name__ == '__main__':
     item_attributes = (
         "name", "make", "model", "ID", "room", "teacher", "condition", "manual", "movable", "description", "hidden")
     log_values = ('name', 'to', 'from', 'tout', 'tin', "date")
-    condition_key = {"1": "Very Bad",
-                     "2": "Bad",
-                     "3": "OK",
-                     "4": "Good",
-                     "5": "Very Good"}
-    database = db(log_values, item_attributes, condition_key)
+    database = db(log_values, item_attributes)
     app.run(host='0.0.0.0', port=8000, debug=True)
     print("", file=sys.stdout)

@@ -107,6 +107,13 @@ $("#history").click(function () {
 });
 
 /**
+ *
+ */
+$("#another").click(function () {
+    sendItem("add_esx")
+});
+
+/**
  * send the hidden id to python at url
  * @param url the url to send the id to
  */

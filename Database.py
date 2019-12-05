@@ -116,6 +116,20 @@ class Database:
         res = [dict(zip(final, i)) for i in zip(*final.values())]
         return res
 
+    def add_esc(self, new, hidden_ID):
+        """
+        adds an existing item
+        :param new: new tran interface
+        :param hidden_ID: id
+        :return:
+        """
+        row = self._data.loc[self._data['hidden'].isin([hidden_ID])]
+        new = pd.DataFrame.from_dict(new)
+        for header in list(row.columns.values):
+            if header not in list(new.columns.values):
+                new[header] = row[header]
+        self.add(new)
+
     def update_args(self, new_history_args=None, new_param_args=None):
         """
         update column headers
