@@ -100,11 +100,6 @@ if __name__ == '__main__':
     item_attributes = (
         "name", "make", "model", "ID", "room", "teacher", "condition", "manual", "movable", "description", "hidden")
     log_values = ('name', 'to', 'from', 'tout', 'tin', "date")
-    condition_key = {"1": "Very Bad",
-                     "2": "Bad",
-                     "3": "OK",
-                     "4": "Good",
-                     "5": "Very Good"}
-    database = db(log_values, item_attributes, condition_key)
+    database = db(log_values, item_attributes)
     app.run(host='0.0.0.0', port=8000, debug=True)
     print("", file=sys.stdout)
