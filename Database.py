@@ -138,6 +138,11 @@ class Database:
             self._log_data = new_history_args
 
     def get_current_loc(self, hidden):
+        """
+        get the current location of an item
+        :param hidden: item id
+        :return: current location
+        """
         return self._data.loc[self._data['hidden'].isin([hidden]), 'room'].tolist()[0]
 
 def sort_dict(self, **kwargs):
