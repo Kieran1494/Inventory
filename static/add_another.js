@@ -4,7 +4,7 @@ $("#submit").click(function () {
     //get which item
     var item_check = localStorage.getItem("item");
     //get form info
-    var form = $('#checkout').serializeArray();
+    var form = $('#add_another').serializeArray();
     //correct formatting
     var checkoutInfo = {};
     form.forEach(function (item, index) {
@@ -16,7 +16,7 @@ $("#submit").click(function () {
     post(url, checkoutInfo);
     //report success
     swal({
-        title: "Checkout Successful",
+        title: "Addition Successful",
         icon: "success",
     });
 });

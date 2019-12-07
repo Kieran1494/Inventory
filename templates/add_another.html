@@ -8,7 +8,8 @@
 <body>
 {#display item using info from python#}
 <h1>Add Another: {% for attribute in item %}{{ attribute }}{{ "," if not loop.last }} {% endfor %} </h1>
-<form class="Adder">
+{#Addition form#}
+<form class="Adder" id="add_another">
     <div class="Adder">
         <label for="ID">ID: </label>
         <input id="ID" name="ID" required>
@@ -32,8 +33,10 @@
         </select>
     </div>
 
-    <input class="styled" type="submit" value="Submit">
 </form>
+{#submit#}
+<input class="styled" type="submit" value="Add" id="submit">
+
 {#scripts#}
 <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='alerts/sweetalert.min.js') }}"></script>

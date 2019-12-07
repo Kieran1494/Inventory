@@ -1,4 +1,8 @@
-name,make,model,ID,room,teacher,condition,manual,movable,description,hidden
-Scale,Mettler-Toledo,PL3002,7,Crowe,Crowe,Very Good,None,Yes,Scale Accurate to 3 Decimal places,0
-Cart,Vernier,GoDirect,124983,Crowe,Crowe,Good,None,No,Cart on track with encoder,1
-Press,Mark 10,Press,1,Mr. T,Mr. T,Very Good,None,No,Compression,2
+ID,condition,description,hidden,make,manual,model,movable,name,room,teacher
+7,Very Good,Scale Accurate to 3 Decimal places,0,Mettler-Toledo,None,PL3002,Yes,Scale,Crowe,Crowe
+124983,Good,Cart on track with encoder,1,Vernier,None,GoDirect,No,Cart,Crowe,Crowe
+1,Very Good,Compression,2,Mark 10,None,Press,No,Press,Mr. T,Mr. T
+A223XXD,Very Bad,sucks and gives bad data :),3,Vernier,None,Motion Detector 2,Yes,Motion Detector,Crowe,Crowe
+6,Ok,Scale Accurate to 3 Decimal places,4,Mettler-Toledo,None,PL3002,Yes,Scale,Crowe,Crowe
+4,Good,Scale Accurate to 3 Decimal places,5,Mettler-Toledo,None,PL3002,Yes,Scale,Crowe,Mr. T
+2803,Bad,sdfg,6,test,None,tester,Yes,Item,Profitt,Profitt

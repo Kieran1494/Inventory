@@ -51,7 +51,7 @@ function matchAny(data, filterParams) {
 /**
  * grab search info and only display matching table rows
  */
-$("#Search").keyup(function () {
+$("#Search").on('input', function () {
     // set filter
     table.setFilter(matchAny, {value: $("#Search").val().toLowerCase()});
     // clear if search box is empty
@@ -89,13 +89,16 @@ $("#deselect-all").click(function () {
  */
 $("#checkout").click(function () {
     // check if movable
-    if (getItemInfo("movable") !== "Yes") {
+    var movable = getItemInfo("movable");
+    if (movable !== "Yes" && movable !== "failed") {
         swal({
             title: "item is not movable",
             icon: "error",
         });
     } else {
-        sendItem("checkout")
+        if (movable === "Yes") {
+            sendItem("checkout")
+        }
     }
 });
 
@@ -131,6 +134,7 @@ function sendItem(url) {
  */
 function getItemInfo(key, full = false) {
     var item = table.getSelectedData();
+    //check if item exists
     if (item && item.length && item[0]) {
         item = item[0];
         if (!full) {
@@ -138,9 +142,11 @@ function getItemInfo(key, full = false) {
         } else {
             return [item[key], item]
         }
+    } else {
+        swal({
+            title: "No Item Selected",
+            icon: "error",
+        });
+        return "failed"
     }
-    swal({
-        title: "No Item Selected",
-        icon: "error",
-    });
 }
