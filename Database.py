@@ -50,14 +50,14 @@ class Database:
         :param item: item to add
         """
         # convert dict to dict of lists
-        for key in item.keys():
-            item[key] = [item[key]]
+        # for key in item.keys():
+        #     item[key] = [item[key]]
         # add hidden id
         item["hidden"] = str(self._data.shape[0])
         # add dataframe to log database for item
         self._log[item["hidden"]] = pd.DataFrame(columns=self._log_data)
         # convert dict to database
-        itm = pd.DataFrame(item)
+        itm = pd.DataFrame(item, index=[0])
         # add to database
         self._data = pd.concat([self._data, itm], axis=0)
         # write
@@ -94,7 +94,11 @@ class Database:
         frame.columns = self._log_data
         # add to log for that item
         self._log[hidden] = pd.concat([self._log[hidden], frame], axis=0)
+        # get index and row of item and update room
+        row_index = self._data.index[self._data['hidden'].isin([hidden])].tolist()[0]
+        self._data['room'][row_index] = transaction["to"]
         # write
+        self.write("data.csv")
         self.write("log.xlsx")
 
     def get_log(self, hidden):
@@ -133,6 +137,8 @@ class Database:
         if new_history_args is not None:
             self._log_data = new_history_args
 
+    def get_current_loc(self, hidden):
+        return self._data.loc[self._data['hidden'].isin([hidden]), 'room'].tolist()[0]
 
 def sort_dict(self, **kwargs):
     return tuple(kwargs.get(x, None) for x in kwargs.get("dict"))

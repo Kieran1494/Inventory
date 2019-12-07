@@ -13,7 +13,7 @@ var table = new Tabulator("#database", {
         {title: "Make", field: "make", align: "center"},
         {title: "Model", field: "model", align: "center"},
         {title: "ID", field: "ID", align: "center", sorter: "number"},
-        {title: "Room", field: "room", align: "center"},
+        {title: "Current Room", field: "room", align: "center"},
         {title: "Teacher", field: "teacher", align: "center"},
         {title: "Manual", field: "manual", align: "center"},
         {title: "Condition", field: "condition", align: "center"},

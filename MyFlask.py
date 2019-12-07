@@ -45,7 +45,8 @@ def checkout():
     """
     item_ID = request.form.to_dict()["hidden"]
     if item_ID is not None:
-        return render_template("checkout.html", item=database.get_selected(item_ID))
+        return render_template("checkout.html", item=database.get_selected(item_ID),
+                               location=database.get_current_loc(item_ID))
     else:
         return hello()
 
