@@ -49,15 +49,15 @@ class Database:
         add item to database and write new database
         :param item: item to add
         """
-        # add hidden value to dict
-        item = list(item.values())
-        item.append(str(self._data.shape[0]))
+        # convert dict to dict of lists
+        for key in item.keys():
+            item[key] = [item[key]]
+        # add hidden id
+        item["hidden"] = str(self._data.shape[0])
         # add dataframe to log database for item
-        self._log[item[len(item) - 1]] = pd.DataFrame(columns=self._log_data)
-        # convert dict to database and transpose
-        itm = pd.DataFrame(item).transpose()
-        # set column names
-        itm.columns = self._item_attributes
+        self._log[item["hidden"]] = pd.DataFrame(columns=self._log_data)
+        # convert dict to database
+        itm = pd.DataFrame(item)
         # add to database
         self._data = pd.concat([self._data, itm], axis=0)
         # write
@@ -103,18 +103,23 @@ class Database:
         :param hidden: hidden id for the item
         :return listified dicts of log info
         """
-        # get dict version of log
-        item_log = self._log[hidden].to_dict()
+        return {"items": self._log[hidden].to_dict('records')}
 
-        # convert to list of dicts
-        final = {}
-        for key in item_log.keys():
-            trans = []
-            for log in item_log[key].keys():
-                trans.append(item_log[key][log])
-            final[key] = trans
-        res = [dict(zip(final, i)) for i in zip(*final.values())]
-        return res
+    def add_esc(self, new, hidden_ID):
+        """
+        adds an existing item
+        :param new: new item info
+        :param hidden_ID: id
+        """
+        # get row for id and convert to dict
+        row = self._data.loc[self._data['hidden'].isin([hidden_ID])]
+        row = row.to_dict('records')[0]
+        # add all column info transaction does not already have except hidden
+        for key in list(row.keys())[:-1]:
+            if key not in new.keys():
+                new[key] = row[key]
+        # add to database
+        self.add(new)
 
     def update_args(self, new_history_args=None, new_param_args=None):
         """

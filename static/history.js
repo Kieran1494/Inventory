@@ -15,7 +15,7 @@ var table = new Tabulator("#database", {
         $("#select-stats span").text(data.length);
     },
 });
-table.setData(log);
+table.setData(log["items"]);
 
 //select row on "select" button click
 $("#select-row").click(function () {

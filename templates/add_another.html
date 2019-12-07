@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Another</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+{#display item using info from python#}
+<h1>Add Another: {% for attribute in item %}{{ attribute }}{{ "," if not loop.last }} {% endfor %} </h1>
+{#Addition form#}
+<form class="Adder" id="add_another">
+    <div class="Adder">
+        <label for="ID">ID: </label>
+        <input id="ID" name="ID" required>
+    </div>
+    <div class="Adder">
+        <label for="Room">Original Room: </label>
+        <input id="Room" name="room" required>
+    </div>
+    <div class="Adder">
+        <label for="Teacher">Teacher: </label>
+        <input id="Teacher" name="teacher" required>
+    </div>
+    <div class="Adder">
+        <label for="condition">Condition</label>
+        <select id="condition" name="condition" required>
+            <option value="Very Good">Very Good</option>
+            <option value="Good">Good</option>
+            <option value="Ok">Ok</option>
+            <option value="Bad">Bad</option>
+            <option value="Very Bad">Very Bad</option>
+        </select>
+    </div>
+
+</form>
+{#submit#}
+<input class="styled" type="submit" value="Add" id="submit">
+
+{#scripts#}
+<script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='alerts/sweetalert.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='util.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='add_another.js') }}"></script>
+</body>
+</html>

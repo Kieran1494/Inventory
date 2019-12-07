@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
+@app.route("/index", methods=["POST"])
 def hello():
     """
     default page display
@@ -87,13 +88,27 @@ def remove():
 
 
 @app.route('/add_esx', methods=["POST"])
-def add_another():
+def add_esx():
     """
-    TODO: add another existing item
     currently not working
     """
-    item = request.form.to_dict()
-    return "True"
+    item_ID = request.form.to_dict()["hidden"]
+    return render_template("add_another.html", item=database.get_selected(item_ID)[:3])
+
+
+@app.route('/add_another', methods=["POST"])
+def add_another():
+    """
+    currently not working
+    """
+    addition = request.form.to_dict()
+    item_ID = addition["hidden"]
+    info = dict()
+    for key, value in addition.items():
+        if "hidden" not in str(key):
+            info[key] = value
+    database.add_esc(info, item_ID)
+    return hello()
 
 
 if __name__ == '__main__':
