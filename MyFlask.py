@@ -1,3 +1,4 @@
+import json
 import logging
 import sys
 
@@ -115,7 +116,7 @@ def add_another():
 if __name__ == '__main__':
     item_attributes = (
         "name", "make", "model", "ID", "room", "teacher", "condition", "manual", "movable", "description", "hidden")
-    log_values = ('name', 'to', 'from', 'tout', 'tin', "date")
+    log_values = ('name', 'to', 'from', 'tout', 'tin')
     database = db(log_values, item_attributes)
     app.run(host='0.0.0.0', port=8000, debug=True)
     print("", file=sys.stdout)

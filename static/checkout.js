@@ -12,9 +12,9 @@ $("#checkout_item").click(function () {
     });
     //add hidden id
     checkoutInfo["hidden"] = item_check;
-    //grab date
-    var d = new Date();
-    checkoutInfo["date"] = d.toLocaleDateString();
+    //convert to utc
+    checkoutInfo["tin"] = Date.today().at(checkoutInfo["tin"]).toISOString();
+    checkoutInfo["tout"] = Date.today().at(checkoutInfo["tout"]).toISOString();
     //send post
     post(url, checkoutInfo);
     //report success

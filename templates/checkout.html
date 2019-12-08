@@ -29,7 +29,7 @@
     </div>
     <div class="Adder">
         <label for="from">Going From: </label>
-        <input id="from" name="from" value={{ location }} required>
+        <input id="from" name="from" value="{{ location|safe }}" required>
     </div>
     <div class="Adder">
         <label for="tout">Time Out: </label>
@@ -48,6 +48,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-3.4.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='alerts/sweetalert.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='time-picker/jquery-clockpicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='UTC-converter/date.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='time-picker/clockpicker.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='util.js') }}"></script>
 <script type=text/javascript src="{{ url_for('static', filename='checkout.js') }}"></script>
