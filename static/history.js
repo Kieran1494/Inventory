@@ -19,8 +19,6 @@ var logs = log["items"];
 for (var i = 0; i < logs.length; i++) {
     var tin = new Date(logs[i]["tin"]);
     var tout = new Date(logs[i]["tout"]);
-    console.log(tin.toUTCString());
-    console.log(tout.toUTCString());
     logs[i]["date"] = tin.toLocaleDateString();
     logs[i]["tin"] = formatTime(tin);
     logs[i]["tout"] = formatTime(tout);
