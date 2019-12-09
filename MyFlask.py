@@ -1,8 +1,7 @@
-import json
 import logging
 import sys
-
 from flask import Flask, render_template, request
+
 from Database import Database as db
 
 app = Flask(__name__)

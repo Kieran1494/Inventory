@@ -96,7 +96,7 @@ $("#checkout").click(function () {
             icon: "error",
         });
     } else {
-        if (movable === "Yes") {
+        if (movable === "Yes" && movable !== "failed") {
             sendItem("checkout")
         }
     }
@@ -122,8 +122,10 @@ $("#another").click(function () {
  */
 function sendItem(url) {
     var info = getItemInfo("hidden", true);
-    localStorage.setItem("item", info[0]);
-    post(url, info[1]);
+    if (info !== "failed") {
+        localStorage.setItem("item", info[0]);
+        post(url, info[1]);
+    }
 }
 
 /**
@@ -135,7 +137,7 @@ function sendItem(url) {
 function getItemInfo(key, full = false) {
     var item = table.getSelectedData();
     //check if item exists
-    if (item && item.length && item[0]) {
+    if (item && item.length && item[0] && item[0].length) {
         item = item[0];
         if (!full) {
             return item[key];
