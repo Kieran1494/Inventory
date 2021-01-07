@@ -180,7 +180,7 @@ def read(headers, name):
             elif ext == ".xlsx":
                 return {}
             else:
-                print("ur gay", file=sys.stdout)
+                print("why you give bad file", file=sys.stdout)
     # manage errors
     except FileNotFoundError:
         if ext == ".csv":
@@ -188,6 +188,6 @@ def read(headers, name):
         elif ext == ".xlsx":
             return {}
         else:
-            print("ur gay", file=sys.stdout)
+            print("why are you give bad fiel", file=sys.stdout)
     except PermissionError:
-        print("ur mega gay", file=sys.stdout)
+        print("let me in", file=sys.stdout)
